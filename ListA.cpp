@@ -37,9 +37,9 @@ void ListA::showAll()
 //////////                                             Operadores                                       //////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void ListA::insert(NodeV* directionA) // Direction ADD a la que apuntamos
+void ListA::insert(NodeV* directionA, int weight) // Direction ADD a la que apuntamos
 {
-    NodeA *tmp = new NodeA(directionA);
+    NodeA *tmp = new NodeA(directionA, weight);
     if (h)
     {
         tmp->sig = h;
@@ -115,13 +115,58 @@ void ListA::deleteEdges(NodeV* directionD)  //Direction to Delete
         cout << "La sucursar analizada no tiene conexiones" << endl;
     }
 }
-//Node* buscarDato(int);
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+NodeV* ListA::buscarDato(string name)            //Retorna puntero de NodeV buscandolo con el nombre de la Sucursal
+{
+    NodeA *aux = h;
+    NodeV *ref = nullptr;
+    bool flag = true;
+    if (h)
+        {
+            while (aux && flag)
+            {
+                if (aux->direction->nameSucursal == name)
+                {
+                ref = aux->direction;
+                flag = false;
+                }
+
+            aux=aux->sig;
+            }
+        }
+    else 
+        {
+        cout << "La sucursal no tiene ninguna conexion" << endl;
+        }
+
+    return ref;
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void ListA::setHeaviest()
+int ListA::setHeaviest()        //Acctualiza la arista mas pesada
 {
-    
+    int heaviest=0;
+    if (h)
+        {  
+        NodeA *aux = h;
+        heaviest = h->weight;
+            while (aux)                   //Recorremos todas las aristas
+            {
+            if (heaviest < aux->weight)   //Para actualizar heaviest si se ocupa
+            {
+            heaviest = aux->weight;
+            }
+            aux = aux->sig;
+            }
+        }
+        else 
+        {
+        cout << "La sucursal no tiene conexiones" << endl;
+        }
+    return heaviest; 
 }
 
 

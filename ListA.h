@@ -20,15 +20,16 @@ class ListA
     
         bool IsEmpty();
         void showAll();
+        NodeV* buscarDato(string);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////                                             Operadores                                       //////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        void insert(NodeV*);
+        void insert(NodeV*, int);
         void deleteAll();
         void deleteEdges(NodeV*);
-        void setHeaviest();
+        int setHeaviest();
         //Node* buscarDato(int);
 
     private: 

@@ -9,7 +9,8 @@ class NodeA
     public:
         NodeA();
         ~NodeA();
-        NodeA::NodeA(NodeV*);
+        NodeA(NodeV*);
+        NodeA(NodeV*, int);
         NodeA(int, NodeA*, NodeV*);
 
     private: 

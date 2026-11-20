@@ -18,11 +18,14 @@ class NodeV
         //Vector o lista de direcciones tipo NodeA*
 
         ListA edges;
-        NodeV* sig;
         string nameSucursal;
         int x, y;
         string phone;
         string schedule;
+
+        int get_numA();
+        //get_heaviestA()
+
 
         friend class ListA;
         friend class ListaV;

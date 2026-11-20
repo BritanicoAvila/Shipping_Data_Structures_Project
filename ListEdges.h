@@ -1,47 +1,44 @@
-#ifndef LISTA_H
-#define LISTA_H
+#ifndef LISTEDGES_H
+#define LISTEDGES_H
 
 #include <iostream>
 
-#include "ListA.h"
-#include "NodeA.h"
-#include "NodeV.h"
+#include "NodeEdges.h"
+#include "NodeVertex.h"
 
-class ListA
+class ListEdges
 {
     public:
-        ListA();
-        ~ListA();
+        ListEdges();
+        ~ListEdges();
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////                                             Consultas                                        //////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    
         bool IsEmpty();
         void showAll();
-        NodeV* buscarDato(string);
+        NodeVertex* searchingData(string);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////                                             Operadores                                       //////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        void insert(NodeV*, int);
+        void insert(NodeVertex*, int);
         void deleteAll();
-        void deleteEdges(NodeV*);
+        void deleteEdges(NodeVertex*);
         int setHeaviest();
         //Node* buscarDato(int);
 
     private: 
 
-        NodeA *h;
-        int numAristas;
+        NodeEdges *h;
+        int numEdges;
         int heaviest;
 
-        friend class NodeA;
-        friend class ListaV;
-        friend class NodeV;
+        friend class NodeEdges;
+        friend class NodeVertex;
         friend class Graph;
 };
 
-#endif // LISTA_H
+#endif // LISTEDGES_H

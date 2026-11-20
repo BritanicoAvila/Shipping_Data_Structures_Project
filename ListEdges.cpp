@@ -1,11 +1,11 @@
-#include "ListA.h"
+#include "ListEdges.h"
 
 using std::cout;
 using std::endl;
 
-ListA::ListA() {
+ListEdges::ListEdges() {
     h = nullptr;
-    numAristas = 0;               //Numero de aristas :D
+    numEdges = 0;               //Numero de aristas :D
     heaviest = 0;                 //Arista mas pesada
 }
 
@@ -13,7 +13,7 @@ ListA::ListA() {
 //////////                                             Consultas                                        //////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool ListA::IsEmpty()
+bool ListEdges::IsEmpty()
 {
     bool flag = true;
     if (h){
@@ -21,15 +21,15 @@ bool ListA::IsEmpty()
     }
     return flag;
 }
-void ListA::showAll()
+void ListEdges::showAll()
 {
-    NodeA *jumper = h;
+    NodeEdges *jumper = h;
     int cont = 0;
     while (!jumper)
     {   //Apuntamos a la parte direccion (al nodoV) y extraemos los datos que necesitemos
         cout << "Sucursal: " << cont << " -> " << jumper->direction->nameSucursal << endl;
         cont++;
-        jumper = jumper->sig;
+        jumper = jumper -> next;
     }
 }
 
@@ -37,28 +37,28 @@ void ListA::showAll()
 //////////                                             Operadores                                       //////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void ListA::insert(NodeV* directionA, int weight) // Direction ADD a la que apuntamos
+void ListEdges::insert(NodeV* directionA, int weight) // Direction ADD a la que apuntamos
 {
-    NodeA *tmp = new NodeA(directionA, weight);
+    NodeEdges *tmp = new NodeEdges(directionA, weight);
     if (h)
     {
-        tmp->sig = h;
+        tmp->next = h;
         h = tmp;
     }
     else 
     {
         h = tmp;
     }
-    numAristas++;
+    numEdges++;
 }
-void ListA::deleteAll()
+void ListEdges::deleteAll()
 {
-    NodeA *tmp = h;
+    NodeEdges *tmp = h;
     if (h)
     {
         while (h)
         {
-            h=h->sig;
+            h=h->next;
             delete tmp;
             tmp=h;
         }
@@ -72,10 +72,10 @@ void ListA::deleteAll()
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void ListA::deleteEdges(NodeV* directionD)  //Direction to Delete
+void ListEdges::deleteEdges(NodeV* directionD)  //Direction to Delete
 {
-    NodeA *tmp = new NodeA(directionD);
-    NodeA *jumper = h, *jumperBefore=nullptr;
+    NodeEdges *tmp = new NodeEdges(directionD);
+    NodeEdges *jumper = h, *jumperBefore=nullptr;
     bool flag = true;
     if (h)
     {
@@ -83,7 +83,7 @@ void ListA::deleteEdges(NodeV* directionD)  //Direction to Delete
         {
             if (tmp->direction == jumper->direction)
             {
-                tmp=jumper;   //Debido a que jumper saltara la siguiente posicion
+                tmp=jumper;   //Debido a que jumper saltara la nextuiente posicion
                 flag = false;
             }
             if (flag) //jumper1 = jumper->ant ... asi solo se actualiza si no se ha encontrado el nodo buscado
@@ -91,13 +91,13 @@ void ListA::deleteEdges(NodeV* directionD)  //Direction to Delete
                 jumperBefore = jumper;
             }
             
-            jumper = jumper -> sig;  //Jumper salta +1 aunque flag = false
+            jumper = jumper -> next;  //Jumper salta +1 aunque flag = false
         }
 
 
         if (tmp = h) //0x
         {
-            h = tmp->sig;
+            h = tmp->next;
             delete tmp;
         }
         else if (flag)  // Si flag = true, entonces la direccion no existe
@@ -106,7 +106,7 @@ void ListA::deleteEdges(NodeV* directionD)  //Direction to Delete
         }
         else 
         {
-            jumperBefore->sig = tmp->sig;
+            jumperBefore->next = tmp->next;
             delete tmp;
         }
     }
@@ -118,40 +118,40 @@ void ListA::deleteEdges(NodeV* directionD)  //Direction to Delete
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-NodeV* ListA::buscarDato(string name)            //Retorna puntero de NodeV buscandolo con el nombre de la Sucursal
+NodeV* ListEdges::searchingData(string name)            //Retorna puntero de NodeV buscandolo con el nombre de la Sucursal
 {
-    NodeA *aux = h;
+    NodeEdges *aux = h;
     NodeV *ref = nullptr;
     bool flag = true;
     if (h)
+    {
+        while (aux && flag)
         {
-            while (aux && flag)
+            if (aux->direction->nameSucursal == name)
             {
-                if (aux->direction->nameSucursal == name)
-                {
                 ref = aux->direction;
                 flag = false;
-                }
-
-            aux=aux->sig;
             }
+
+            aux=aux->next;
         }
+    }
     else 
-        {
+    {
         cout << "La sucursal no tiene ninguna conexion" << endl;
-        }
+    }
 
     return ref;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int ListA::setHeaviest()        //Acctualiza la arista mas pesada
+int ListEdges::setHeaviest()        //Acctualiza la arista mas pesada
 {
     int heaviest=0;
     if (h)
         {  
-        NodeA *aux = h;
+        NodeEdges *aux = h;
         heaviest = h->weight;
             while (aux)                   //Recorremos todas las aristas
             {
@@ -159,7 +159,7 @@ int ListA::setHeaviest()        //Acctualiza la arista mas pesada
             {
             heaviest = aux->weight;
             }
-            aux = aux->sig;
+            aux = aux->next;
             }
         }
         else 
@@ -170,7 +170,7 @@ int ListA::setHeaviest()        //Acctualiza la arista mas pesada
 }
 
 
-ListA::~ListA()
+ListEdges::~ListEdges()
 {
-//dtor
+    //dtor
 }

@@ -37,7 +37,7 @@ void ListEdges::showAll()
 //////////                                             Operadores                                       //////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void ListEdges::insert(NodeV* directionA, int weight) // Direction ADD a la que apuntamos
+void ListEdges::insert(NodeVertex* directionA, int weight) // Direction ADD a la que apuntamos
 {
     NodeEdges *tmp = new NodeEdges(directionA, weight);
     if (h)
@@ -72,7 +72,7 @@ void ListEdges::deleteAll()
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void ListEdges::deleteEdges(NodeV* directionD)  //Direction to Delete
+void ListEdges::deleteEdges(NodeVertex* directionD)  //Direction to Delete
 {
     NodeEdges *tmp = new NodeEdges(directionD);
     NodeEdges *jumper = h, *jumperBefore=nullptr;
@@ -118,28 +118,28 @@ void ListEdges::deleteEdges(NodeV* directionD)  //Direction to Delete
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-NodeV* ListEdges::searchingData(string name)            //Retorna puntero de NodeV buscandolo con el nombre de la Sucursal
+NodeVertex* ListEdges::searchingData(string name)            //Retorna puntero de NodeV buscandolo con el nombre de la Sucursal
 {
     NodeEdges *aux = h;
-    NodeV *ref = nullptr;
+    NodeVertex *ref = nullptr;
     bool flag = true;
     if (h)
-    {
-        while (aux && flag)
         {
-            if (aux->direction->nameSucursal == name)
+            while (aux && flag)
             {
+                if (aux->direction->nameSucursal == name)
+                {
                 ref = aux->direction;
                 flag = false;
-            }
+                }
 
             aux=aux->next;
+            }
         }
-    }
     else 
-    {
+        {
         cout << "La sucursal no tiene ninguna conexion" << endl;
-    }
+        }
 
     return ref;
 }

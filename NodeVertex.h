@@ -19,6 +19,7 @@ class NodeVertex
     private: 
         int weight;
         NodeVertex* next;
+        std::vector<NodeEdges*> edgesDirections; 
         //Vector o lista de direcciones tipo NodeEdges*
 
         ListEdges edges;
@@ -28,11 +29,12 @@ class NodeVertex
         string schedule;
 
         int getNumEdges();
-        //getHeaviestA()
+        int getHeaviestA();
 
 
         friend class ListEdges;
         friend class NodeEdges;
+        friend class ListVertex;
         friend class Graph;
 };
 

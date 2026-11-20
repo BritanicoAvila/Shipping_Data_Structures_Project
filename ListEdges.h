@@ -28,7 +28,6 @@ class ListEdges
         void deleteAll();
         void deleteEdges(NodeVertex*);
         int setHeaviest();
-        //Node* buscarDato(int);
 
     private: 
 

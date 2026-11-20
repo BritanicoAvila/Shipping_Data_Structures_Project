@@ -2,7 +2,6 @@
 
 NodeVertex::NodeVertex(){
     next = nullptr;
-
     nameSucursal = "";
     //funcionSiEsElUnicoNodo()
     phone = "";

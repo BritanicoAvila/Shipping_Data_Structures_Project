@@ -14,9 +14,11 @@ class NodeVertex
         NodeVertex(string, int, int, string, string, NodeVertex*, ListEdges);
         
         ~NodeVertex();
-    private: 
+    private:
         NodeVertex* next = nullptr;
         ListEdges edges;
+        NodeVertex* next;
+        std::vector<NodeEdges*> edgesDirections; 
         //Vector o lista de direcciones tipo NodeEdges*
 
         string nameSucursal = "";
@@ -25,11 +27,12 @@ class NodeVertex
         string schedule = "";
 
         int getNumEdges();
-        //getHeaviestA()
+        int getHeaviestA();
 
 
         friend class ListEdges;
         friend class NodeEdges;
+        friend class ListVertex;
         friend class Graph;
 };
 

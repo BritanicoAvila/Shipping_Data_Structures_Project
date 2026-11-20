@@ -7,25 +7,22 @@
 #include "NodeEdges.h"
 #include "ListEdges.h"
 
-using namespace std;
-
 class NodeVertex
 {
     public:
         NodeVertex();
+        NodeVertex(string, int, int, string, string, NodeVertex*, ListEdges);
+        
         ~NodeVertex();
-        NodeVertex(int, NodeEdges*);
-
     private: 
-        int weight;
-        NodeVertex* next;
+        NodeVertex* next = nullptr;
+        ListEdges edges;
         //Vector o lista de direcciones tipo NodeEdges*
 
-        ListEdges edges;
-        string nameSucursal;
+        string nameSucursal = "";
         int x, y;
-        string phone;
-        string schedule;
+        string phone = "";
+        string schedule = "";
 
         int getNumEdges();
         //getHeaviestA()

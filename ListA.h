@@ -1,8 +1,11 @@
 #ifndef LISTA_H
 #define LISTA_H
-#include "NodeA.h"
+
 #include <iostream>
-using namespace std;
+
+#include "ListA.h"
+#include "NodeA.h"
+#include "NodeV.h"
 
 class ListA
 {
@@ -15,16 +18,16 @@ class ListA
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     
-        bool vacia();
-        void mostrarTodo();
+        bool IsEmpty();
+        void showAll();
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////                                             Operadores                                       //////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        void insertar(NodeV*);
-        void eliminar_todo();
-        void eliminarA(NodeV*);
+        void insert(NodeV*);
+        void deleteAll();
+        void deleteEdges(NodeV*);
         void setHeaviest();
         //Node* buscarDato(int);
 

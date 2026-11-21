@@ -3,15 +3,19 @@
 
 #include <vector>
 #include <iostream>
+using namespace std;
 
 #include "NodeEdges.h"
 #include "ListEdges.h"
+#include "ListVertex.h"
+#include "Graph.h"
 
 class NodeVertex
 {
     public:
         NodeVertex();
         NodeVertex(string, int, int, string, string, NodeVertex*, ListEdges);
+        NodeVertex(string, int, int, string, string);
         
         ~NodeVertex();
     private:

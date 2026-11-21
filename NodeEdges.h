@@ -1,7 +1,10 @@
 #ifndef NODEEDGES_H
 #define NODEEDGES_H
-
 #include "NodeVertex.h"
+class ListEdges;
+#include "ListVertex.h"
+#include "Graph.h"
+
 #include <iostream>
 using namespace std;
 

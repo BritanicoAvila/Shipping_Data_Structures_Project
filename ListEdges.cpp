@@ -1,4 +1,8 @@
+#include "NodeEdges.h"
+#include "NodeVertex.h"
 #include "ListEdges.h"
+#include "ListVertex.h"
+#include "Graph.h"
 
 using std::cout;
 using std::endl;
@@ -109,6 +113,7 @@ void ListEdges::deleteEdges(NodeVertex* directionD)  //Direction to Delete
             jumperBefore->next = tmp->next;
             delete tmp;
         }
+        numEdges--;
     }
     else 
     {

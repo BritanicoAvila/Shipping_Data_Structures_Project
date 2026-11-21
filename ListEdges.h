@@ -2,9 +2,12 @@
 #define LISTEDGES_H
 
 #include <iostream>
+using namespace std;
 
 #include "NodeEdges.h"
-#include "NodeVertex.h"
+class NodeVertex;
+#include "ListVertex.h"
+#include "Graph.h"
 
 class ListEdges
 {

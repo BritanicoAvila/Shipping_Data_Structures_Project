@@ -1,15 +1,17 @@
-#ifndef NODEVERTEX_H
-#define NODEVERTEX_H
+#ifndef LISTVERTEX_H
+#define LISTVERTEX_H
 
 #include <vector>
 #include <iostream>
-
-#include "NodeVertex.h"
-#include "ListEdges.h"
-
 using namespace std;
 
-class ListVetex
+class NodeEdges;
+#include "NodeVertex.h"
+#include "ListEdges.h"
+#include "Graph.h"
+
+
+class ListVertex
 {
 
 
@@ -20,8 +22,8 @@ int vertexNumber;
 
 
 public:
-    ListVetex();
-    ~ListVetex();
+    ListVertex();
+    ~ListVertex();
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////                                             Consultas                                        //////////
@@ -35,10 +37,10 @@ public:
 //////////                                             Operadores                                       //////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        void insert(NodeVertex);         //
+        void insert();         
         void deleteAll();
         void deleteVertex(NodeVertex*);
-        NodeVertex fuller();            //Llena el nodo vertex
+        NodeVertex* fuller();            //Llena el nodo vertex
         int calculator (NodeVertex*);              //Calcula la hipotenusa1
 
 

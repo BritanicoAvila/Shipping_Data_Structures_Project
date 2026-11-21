@@ -1,31 +1,34 @@
+#include "NodeEdges.h"
+#include "NodeVertex.h"
+#include "ListEdges.h"
 #include "ListVertex.h"
+#include "Graph.h"
+
+#include <iostream>
 #include <cstdlib>
 #include <ctime>
 
 ListVertex::ListVertex ()
 {
-
+NodeVertex *h = nullptr;
+int vertexNumber = 0;
 }
-        ListEdges edges;
-        string nameSucursal;
-        int x, y;
-        string phone;
-        string schedule;
 
-NodeVertex ListVertex::fuller()
+NodeVertex* ListVertex::fuller()
 {
-    Nodevertex ref;
+    int x, y;
+    string nameSucursal, phone, schedule;
     cout << endl << "Introduzca el nombre de la sucursal: "; 
-    cin >> ref.nameSucursal;
+    cin >> nameSucursal;
     cout << endl << "Introduzca el numero telefonico de la sucursal: "; 
-    cin >> ref.phone;
+    cin >> phone;
     cout << endl << "Introduzca el horario de la sucursal: "; 
-    cin >> ref.schedule;
+    cin >> schedule;
     srand(time(0));
-    ref.x = rand();
+    x = rand();
     srand(time(0));
-    ref.y = rand();
-    
+    y = rand();
+    NodeVertex *ref = new NodeVertex();
     return ref;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,7 +49,7 @@ void ListVertex::showAll()
     int cont = 0;
     while (!jumper)
     {   //Apuntamos a la parte direccion (al nodoV) y extraemos los datos que necesitemos
-        cout << "Sucursal: " << cont << " -> " << jumper->direction->nameSucursal << endl;
+         cout << "Sucursal: " << cont << " -> " << jumper->nameSucursal << endl;
         cont++;
         jumper = jumper -> next;
     }
@@ -56,9 +59,9 @@ void ListVertex::showAll()
 //////////                                             Operadores                                       //////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void ListVertex::insert(NodeVertex* directionA, int weight) // Direction ADD a la que apuntamos
+void ListVertex::insert() // Direction ADD a la que apuntamos
 {
-    NodeVertex *tmp = new NodeVertex(directionA, weight);
+    NodeVertex *tmp = fuller();
     if (h)
     {
         tmp->next = h;
@@ -67,9 +70,12 @@ void ListVertex::insert(NodeVertex* directionA, int weight) // Direction ADD a l
     else 
     {
         h = tmp;
+        h->x = 0;
+        h->y = 0;
     }
-    numEdges++;
+    vertexNumber++;
 }
+
 void ListVertex::deleteAll()
 {
     NodeVertex *tmp = h;
@@ -81,11 +87,11 @@ void ListVertex::deleteAll()
             delete tmp;
             tmp=h;
         }
-        cout << "La sucursal ya no tiene conexiones" << endl;
+        cout << "La lista de sucursales ha sido eliminada" << endl;
     }
     else
     {
-        cout << "No hay conexiones en la sucursal" << endl;
+        cout << "La lista de sucursales ya estaba vacia" << endl;
     }
 }
 

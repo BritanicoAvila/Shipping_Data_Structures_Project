@@ -4,11 +4,13 @@
 #include <vector>
 #include <iostream>
 using namespace std;
-
+/*
 #include "NodeEdges.h"
 #include "ListEdges.h"
 #include "ListVertex.h"
-#include "Graph.h"
+*/
+#include "ListEdges.h" // Seguro incluirlo porque ListEdges.h ya no incluye nada tuyo
+class NodeEdges;
 
 class NodeVertex
 {
@@ -21,7 +23,6 @@ class NodeVertex
     private:
         NodeVertex* next = nullptr;
         ListEdges edges;
-        NodeVertex* next;
         std::vector<NodeEdges*> edgesDirections; 
         //Vector o lista de direcciones tipo NodeEdges*
 

@@ -1,8 +1,6 @@
+#include "ListEdges.h"
 #include "NodeEdges.h"
 #include "NodeVertex.h"
-#include "ListEdges.h"
-#include "ListVertex.h"
-#include "Graph.h"
 
 NodeVertex::NodeVertex(){
     next = nullptr;
@@ -30,4 +28,9 @@ NodeVertex::NodeVertex(string nameSucursal, int x, int y, string phone, string s
     this -> phone = phone;
     next = nullptr;
     edges;
+}
+
+NodeVertex::~NodeVertex()
+{
+    //dtor
 }

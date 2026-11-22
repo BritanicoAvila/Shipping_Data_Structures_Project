@@ -1,8 +1,6 @@
+#include "ListEdges.h"
 #include "NodeEdges.h"
 #include "NodeVertex.h"
-#include "ListEdges.h"
-#include "ListVertex.h"
-#include "Graph.h"
 #include <iostream>
 
 NodeEdges::NodeEdges()

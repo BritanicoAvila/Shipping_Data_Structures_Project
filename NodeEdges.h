@@ -1,9 +1,11 @@
 #ifndef NODEEDGES_H
 #define NODEEDGES_H
+/*
 #include "NodeVertex.h"
-class ListEdges;
-#include "ListVertex.h"
-#include "Graph.h"
+#include "NodeEdges.h"
+#include "ListEdges.h"
+*/
+class NodeVertex; // Declaración adelantada sugerida por Gemini para evitar lectura circular
 
 #include <iostream>
 using namespace std;

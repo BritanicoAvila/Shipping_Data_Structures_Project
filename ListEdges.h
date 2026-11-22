@@ -3,11 +3,13 @@
 
 #include <iostream>
 using namespace std;
-
+/*
 #include "NodeEdges.h"
-class NodeVertex;
-#include "ListVertex.h"
-#include "Graph.h"
+#include "NodeVertex.h"
+*/
+
+class NodeVertex; // Declaración adelantada
+class NodeEdges;  // Declaración adelantada
 
 class ListEdges
 {

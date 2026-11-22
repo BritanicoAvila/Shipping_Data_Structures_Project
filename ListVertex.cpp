@@ -1,12 +1,12 @@
+#include "ListEdges.h"
 #include "NodeEdges.h"
 #include "NodeVertex.h"
-#include "ListEdges.h"
 #include "ListVertex.h"
-#include "Graph.h"
 
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <cmath>
 
 ListVertex::ListVertex ()
 {
@@ -14,9 +14,9 @@ NodeVertex *h = nullptr;
 int vertexNumber = 0;
 }
 
-NodeVertex* ListVertex::fuller()
+NodeVertex* ListVertex::fuller()  //Llena la informacion de una nueva sucursal y le da coordenadas random
 {
-    int x, y;
+    int x=0, y=0;
     string nameSucursal, phone, schedule;
     cout << endl << "Introduzca el nombre de la sucursal: "; 
     cin >> nameSucursal;
@@ -24,11 +24,16 @@ NodeVertex* ListVertex::fuller()
     cin >> phone;
     cout << endl << "Introduzca el horario de la sucursal: "; 
     cin >> schedule;
-    srand(time(0));
-    x = rand();
-    srand(time(0));
-    y = rand();
-    NodeVertex *ref = new NodeVertex();
+
+        while (x + y == 0)  //Para asegurar que las coordenadas (0,0) no se repitan
+        {
+        srand(time(0));
+        x = rand();
+        srand(time(0));
+        y = rand();
+        }
+    
+    NodeVertex *ref = new NodeVertex(nameSucursal, x, y, phone, schedule);
     return ref;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,7 +53,7 @@ void ListVertex::showAll()
     NodeVertex *jumper = h;
     int cont = 0;
     while (!jumper)
-    {   //Apuntamos a la parte direccion (al nodoV) y extraemos los datos que necesitemos
+    {   
          cout << "Sucursal: " << cont << " -> " << jumper->nameSucursal << endl;
         cont++;
         jumper = jumper -> next;
@@ -61,7 +66,7 @@ void ListVertex::showAll()
 
 void ListVertex::insert() // Direction ADD a la que apuntamos
 {
-    NodeVertex *tmp = fuller();
+    NodeVertex *tmp = fuller();   //Llamamos a "llenador" para crear el nuevo objeto
     if (h)
     {
         tmp->next = h;
@@ -69,7 +74,7 @@ void ListVertex::insert() // Direction ADD a la que apuntamos
     }
     else 
     {
-        h = tmp;
+        h = tmp;   //Es el primer vertice y sus coordenadas deben de ser = 0
         h->x = 0;
         h->y = 0;
     }
@@ -96,3 +101,56 @@ void ListVertex::deleteAll()
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+int ListVertex::distanceCalculator (NodeVertex* actN, NodeVertex* newN)              //Calcula la distancia
+{
+    int distance=0, catx=0, caty=0;                        //Catetos
+    bool difSignx = (actN->x*newN->x < 0) ? true : false;  //Para saber si son de signos diferentes o iguales 
+    bool difSigny = (actN->y*newN->y < 0) ? true : false;  //Para saber si son de signos diferentes o iguales
+
+
+    catx = (difSignx) ? actN->x + actN->x : actN->x + actN->x*-1;   //Para restar y encontrar la diferencia
+    caty = (difSigny) ? actN->y + actN->y : actN->y + actN->y*-1;   //Para restar y encontrar la diferencia
+
+    catx = (catx < 0) ? catx*-1 : catx;    //Para que la raiz nunca sea negativa
+    caty = (caty < 0) ? caty*-1 : caty;    //Para que la raiz nunca sea negativa
+
+    if (actN->x != newN->x && actN->y != newN->y)    //Si no son paralelos tenemos que usar pitagoras
+    {
+    distance = static_cast<int>(std::sqrt((catx*catx)+(caty*caty)));
+    }
+    else   //Si son paralelos solo usamos una suma (pq uno de los dos catetos = 0)
+    {
+    distance = catx + caty;
+    }
+
+    return distance;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+NodeVertex* ListVertex::searchingData(string name)            //Retorna puntero de NodeV buscandolo con el nombre de la Sucursal
+{
+    NodeVertex *ref = h;
+    bool flag = true;
+    if (h)
+        {
+            while (ref && flag)
+            {
+                if (ref->nameSucursal == name)
+                {
+                flag = false;
+                }
+                else
+                {
+                ref=ref->next;
+                }
+            }
+        }
+    else 
+        {
+        cout << "La lista de sucursales esta vacia" << endl;
+        }
+
+    return ref;
+}

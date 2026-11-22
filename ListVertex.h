@@ -5,21 +5,16 @@
 #include <iostream>
 using namespace std;
 
-class NodeEdges;
-#include "NodeVertex.h"
-#include "ListEdges.h"
-#include "Graph.h"
-
+// #include "NodeVertex.h"
+class NodeVertex; //Declaración Adelantada
 
 class ListVertex
 {
-
 
 private:
 
 NodeVertex *h;
 int vertexNumber;   
-
 
 public:
     ListVertex();
@@ -31,7 +26,7 @@ public:
 
         bool IsEmpty();
         void showAll();
-        // NodeVertex* searchingData(string);
+        NodeVertex* searchingData(string);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////                                             Operadores                                       //////////
@@ -41,7 +36,7 @@ public:
         void deleteAll();
         void deleteVertex(NodeVertex*);
         NodeVertex* fuller();            //Llena el nodo vertex
-        int calculator (NodeVertex*);              //Calcula la hipotenusa1
+        int distanceCalculator (NodeVertex*, NodeVertex*);              //Calcula la distancia entre 2 nodos
 
 
 

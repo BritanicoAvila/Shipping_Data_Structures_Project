@@ -3,10 +3,11 @@
 #include "NodeVertex.h"
 #include "ListVertex.h"
 
-#include <iostream>
-#include <cstdlib>
-#include <ctime>
-#include <cmath>
+using std::cout;
+using std::cin;
+using std::endl;
+using std::string;
+using std::vector;
 
 ListVertex::ListVertex ()
 {
@@ -50,13 +51,29 @@ bool ListVertex::IsEmpty()
 }
 void ListVertex::showAll()
 {
-    NodeVertex *jumper = h;
+    if (IsEmpty()){
+        cout << "No hay sucursales disponibles!";
+        return;
+    }
+
+    NodeVertex *aux = h;
     int cont = 0;
-    while (!jumper)
+    while (aux != nullptr)
     {   
-         cout << "Sucursal: " << cont << " -> " << jumper->nameSucursal << endl;
+        /*       
+        string nameSucursal = "";
+        int x, y;
+        string phone = "";
+        string schedule = "";
+        */
+        cout << "Sucursal No. " << cont << " : " << " -> " << aux -> nameSucursal << endl;
+        cout << "Latitud: "  << aux -> y << endl;
+        cout << "Longitud: "  << aux -> x << endl;
+        cout << "Telefono de la sucursal: " << aux -> phone << endl;
+        cout << "Horario de la sucursal: " << aux -> schedule << endl;
+        
         cont++;
-        jumper = jumper -> next;
+        aux = aux -> next;
     }
 }
 
@@ -83,21 +100,20 @@ void ListVertex::insert() // Direction ADD a la que apuntamos
 
 void ListVertex::deleteAll()
 {
+    if (IsEmpty()){
+        cout << "No hay sucursales disponibles!";
+        return;
+    }
+
     NodeVertex *tmp = h;
-    if (h)
-    {
         while (h)
         {
-            h=h->next;
+            h = h -> next;
             delete tmp;
-            tmp=h;
+            tmp = h;
         }
+        vertexNumber = 0;
         cout << "La lista de sucursales ha sido eliminada" << endl;
-    }
-    else
-    {
-        cout << "La lista de sucursales ya estaba vacia" << endl;
-    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

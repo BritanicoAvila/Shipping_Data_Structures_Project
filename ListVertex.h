@@ -1,9 +1,11 @@
 #ifndef LISTVERTEX_H
 #define LISTVERTEX_H
 
-#include <vector>
 #include <iostream>
-using namespace std;
+#include <vector>
+#include <cstdlib>
+#include <ctime>
+#include <cmath>
 
 // #include "NodeVertex.h"
 class NodeVertex; //Declaración Adelantada
@@ -25,7 +27,7 @@ public:
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         bool IsEmpty();
-        void showAll();
+        void  showAll();
         NodeVertex* searchingData(string);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////

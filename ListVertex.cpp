@@ -9,10 +9,10 @@ using std::endl;
 using std::string;
 using std::vector;
 
-ListVertex::ListVertex ()
+ListVertex::ListVertex()
 {
-NodeVertex *h = nullptr;
-int vertexNumber = 0;
+    NodeVertex *h = nullptr;
+    int vertexNumber = 0;
 }
 
 NodeVertex* ListVertex::fuller()  //Llena la informacion de una nueva sucursal y le da coordenadas random
@@ -96,6 +96,47 @@ void ListVertex::insert() // Direction ADD a la que apuntamos
         h->y = 0;
     }
     vertexNumber++;
+}
+
+void ListVertex::deleteVertex(NodeVertex* vertex){
+    if (IsEmpty() or vertex == nullptr){
+        cout << "No se encontro sucursal";
+        return;
+    }
+
+    NodeVertex* aux = h;
+
+    if (vertex == h)
+    {
+        h = h -> next;
+        delete aux;
+        vertexNumber--;
+    }
+    else
+    {
+        NodeVertex* tmp = nullptr;
+        while (aux != nullptr and aux != vertex)
+        {
+            tmp = aux;
+            aux = aux -> next;
+        }
+
+        if (aux == vertex)
+        {
+            tmp -> next = aux -> next;
+
+            delete aux;
+            vertexNumber--;
+        }
+        
+
+
+
+    }
+    
+    
+    
+
 }
 
 void ListVertex::deleteAll()

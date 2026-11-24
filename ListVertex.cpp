@@ -21,14 +21,11 @@ NodeVertex* ListVertex::fuller()  //Llena la informacion de una nueva sucursal y
     //srand(time(0)) HAY QUE MOVER ESTO A MAIN;
     string nameSucursal, phone, schedule;
     cout << endl << "Introduzca el nombre de la sucursal: "; 
-    getline(cin, nameSucursal);
-    cin.ignore();
+    getline(cin, nameSucursal);    
     cout << endl << "Introduzca el numero telefonico de la sucursal: "; 
     getline(cin, phone);
-    cin.ignore();
     cout << endl << "Introduzca el horario de la sucursal: "; 
     getline(cin, schedule);
-    cin.ignore();
     
 
     while (x + y == 0)  //Para asegurar que las coordenadas (0,0) no se repitan
@@ -193,37 +190,23 @@ int ListVertex::distanceCalculator (NodeVertex* actN, NodeVertex* newN)         
 
 void ListVertex::balancerSetter(NodeVertex* node)     //Balancea los nuevos nodos (les pone aristas)
 {
-    NodeVertex *aux = h;
-
-    if (vertexNumber < 4)      //Solo agregamos sin preocuparnos por ver cuantas hay
+    if (node == nullptr || h == nullptr)
     {
-        while (aux)
-        {
-            if (aux != node)   //Para que no inserte una arista a si mismo
-            {
-            node->edges.insert(aux, distanceCalculator(node, aux));  //Agregamos a la lista de aristas
-            node->edges.heaviest = node->edges.setHeaviest();        //Actualizamos la arista con mayor peso
-            }
-        aux = aux->next;
-        }
+        return;
     }
-    else           //Hay que ser selectivos pues NUMVERTEX < 4
-    {
 
-    int minEdges = 1;                                  //Inicia en uno por:
-    aux = (aux == node) ? aux->next : aux ;            //Como el nuevo nodo siempre es h, no podemos permitir que
-    node->edges.insert(aux, distanceCalculator(node, aux));  //apunte a si mismo, y sabemos que hay mas de 4 vertices
-    node->edges.heaviest = node->edges.setHeaviest();
-        
-        while (aux)
+    NodeVertex* aux = h;
+    while (aux != nullptr)
+    {
+        if (aux != node && !node->edges.hasEdge(aux))   //Evita auto-aristas y aristas duplicadas
         {
-            if (minEdges < 4)
+            int dist = distanceCalculator(node, aux);
+            if (node->edges.numEdges < 4)
             {
-            node->edges.insert(aux, distanceCalculator(node, aux));  //Agregamos a la lista de aristas
-            node->edges.heaviest = node->edges.setHeaviest();        //Actualizamos la arista con mayor peso
-            minEdges ++;
+                node->edges.insert(aux, dist);          //Agregamos a la lista de aristas
+                node->edges.setHeaviest();              //Actualizamos la arista con mayor peso
             }
-            else if (distanceCalculator(node, aux) < node->edges.heaviest) //Distancia menor a menor distancia actual
+            else if (dist < node->edges.heaviest)       //Si es mas cercana que la arista mas pesada actual
             {
                 if (distanceCalculator(node, aux) < aux->edges.heaviest)  //Para actualizar las sucursales si se necesita tambien
                 {
@@ -236,7 +219,6 @@ void ListVertex::balancerSetter(NodeVertex* node)     //Balancea los nuevos nodo
             node->edges.heaviest = node->edges.setHeaviest();        //Actualizamos la arista con mayor peso
             }
         aux = aux->next;
-        }
     }
     // else                       //Recorrido rapido para actualizar nodos si es necesario
     // {

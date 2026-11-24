@@ -225,6 +225,12 @@ void ListVertex::balancerSetter(NodeVertex* node)     //Balancea los nuevos nodo
             }
             else if (distanceCalculator(node, aux) < node->edges.heaviest) //Distancia menor a menor distancia actual
             {
+                if (distanceCalculator(node, aux) < aux->edges.heaviest)  //Para actualizar las sucursales si se necesita tambien
+                {
+                aux->edges.insert(aux, distanceCalculator(node, aux));  //Agregamos a la lista de aristas
+                //Un metodo que elimine la heaviest         --------------------------------------------------------------------aqui--------------------------
+                aux->edges.heaviest = aux->edges.setHeaviest();        //Actualizamos la arista con mayor peso
+                }
             node->edges.insert(aux, distanceCalculator(node, aux));  //Agregamos a la lista de aristas
             //Un metodo que elimine la heaviest         --------------------------------------------------------------------aqui--------------------------
             node->edges.heaviest = node->edges.setHeaviest();        //Actualizamos la arista con mayor peso
@@ -244,6 +250,34 @@ void ListVertex::balancerSetter(NodeVertex* node)     //Balancea los nuevos nodo
     //     }
     // }
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+NodeVertex* ListVertex::getLighter (NodeVertex* sucursal)
+{
+    NodeVertex *actN = h;
+    sucursal->edges.heaviest = sucursal->edges.setHeaviest(); //Actualizamos mas pesado
+    
+    
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void ListVertex::generalBalancer()
+{
+    NodeVertex *actN = h;
+    if (h && vertexNumber > 4)   //Tiene el enfoque de balancear tras una eliminacion ¿como balanceamos si no hay suficientes vetices?
+    {
+        while (actN)
+        {
+            if (actN->edges.numEdges < 4)   //Si este nodo tiene menos de 4 aristas
+            {
+
+            }
+        actN = actN->next;
+        }
+    }
+} 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -11,13 +11,14 @@ using std::vector;
 
 ListVertex::ListVertex()
 {
-    NodeVertex *h = nullptr;
-    int vertexNumber = 0;
+    h = nullptr;
+    vertexNumber = 0;
 }
 
 NodeVertex* ListVertex::fuller()  //Llena la informacion de una nueva sucursal y le da coordenadas random
-{
+{   
     int x=0, y=0;
+    //srand(time(0)) HAY QUE MOVER ESTO A MAIN;
     string nameSucursal, phone, schedule;
     cout << endl << "Introduzca el nombre de la sucursal: "; 
     cin >> nameSucursal;
@@ -28,10 +29,9 @@ NodeVertex* ListVertex::fuller()  //Llena la informacion de una nueva sucursal y
 
         while (x + y == 0)  //Para asegurar que las coordenadas (0,0) no se repitan
         {
-        srand(time(0));
-        x = rand();
-        srand(time(0));
-        y = rand();
+            
+            x = rand() % 500;
+            y = rand() % 500;
         }
     
     NodeVertex *ref = new NodeVertex(nameSucursal, x, y, phone, schedule);
@@ -128,15 +128,7 @@ void ListVertex::deleteVertex(NodeVertex* vertex){
             delete aux;
             vertexNumber--;
         }
-        
-
-
-
     }
-    
-    
-    
-
 }
 
 void ListVertex::deleteAll()
@@ -161,25 +153,37 @@ void ListVertex::deleteAll()
 
 int ListVertex::distanceCalculator (NodeVertex* actN, NodeVertex* newN)              //Calcula la distancia
 {
-    int distance=0, catx=0, caty=0;                        //Catetos
-    bool difSignx = (actN->x*newN->x < 0) ? true : false;  //Para saber si son de signos diferentes o iguales 
-    bool difSigny = (actN->y*newN->y < 0) ? true : false;  //Para saber si son de signos diferentes o iguales
+    double distance=0, catx=0, caty=0;                        //Catetos
+    double deltaX, deltaY;
+
+    deltaX = newN -> x - actN -> x;
+    deltaY = newN -> y - actN -> y;
+
+    distance = sqrt((deltaX * deltaX) + (deltaY * deltaY));
+    
 
 
-    catx = (difSignx) ? actN->x + actN->x : actN->x + actN->x*-1;   //Para restar y encontrar la diferencia
-    caty = (difSigny) ? actN->y + actN->y : actN->y + actN->y*-1;   //Para restar y encontrar la diferencia
 
-    catx = (catx < 0) ? catx*-1 : catx;    //Para que la raiz nunca sea negativa
-    caty = (caty < 0) ? caty*-1 : caty;    //Para que la raiz nunca sea negativa
 
-    if (actN->x != newN->x && actN->y != newN->y)    //Si no son paralelos tenemos que usar pitagoras
-    {
-    distance = static_cast<int>(std::sqrt((catx*catx)+(caty*caty)));
-    }
-    else   //Si son paralelos solo usamos una suma (pq uno de los dos catetos = 0)
-    {
-    distance = catx + caty;
-    }
+
+    // bool difSignx = (actN->x*newN->x < 0) ? true : false;  //Para saber si son de signos diferentes o iguales 
+    // bool difSigny = (actN->y*newN->y < 0) ? true : false;  //Para saber si son de signos diferentes o iguales
+
+
+    // catx = (difSignx) ? actN->x + actN->x : actN->x + actN->x*-1;   //Para restar y encontrar la diferencia
+    // caty = (difSigny) ? actN->y + actN->y : actN->y + actN->y*-1;   //Para restar y encontrar la diferencia
+
+    // catx = (catx < 0) ? catx*-1 : catx;    //Para que la raiz nunca sea negativa
+    // caty = (caty < 0) ? caty*-1 : caty;    //Para que la raiz nunca sea negativa
+
+    // if (actN->x != newN->x && actN->y != newN->y)    //Si no son paralelos tenemos que usar pitagoras
+    // {
+    // distance = static_cast<int>(std::sqrt((catx*catx)+(caty*caty)));
+    // }
+    // else   //Si son paralelos solo usamos una suma (pq uno de los dos catetos = 0)
+    // {
+    // distance = catx + caty;
+    // }
 
     return distance;
 }
@@ -211,3 +215,5 @@ NodeVertex* ListVertex::searchingData(string name)            //Retorna puntero 
 
     return ref;
 }
+
+ListVertex::~ListVertex(){}

@@ -21,18 +21,22 @@ NodeVertex* ListVertex::fuller()  //Llena la informacion de una nueva sucursal y
     //srand(time(0)) HAY QUE MOVER ESTO A MAIN;
     string nameSucursal, phone, schedule;
     cout << endl << "Introduzca el nombre de la sucursal: "; 
-    cin >> nameSucursal;
+    getline(cin, nameSucursal);
+    cin.ignore();
     cout << endl << "Introduzca el numero telefonico de la sucursal: "; 
-    cin >> phone;
+    getline(cin, phone);
+    cin.ignore();
     cout << endl << "Introduzca el horario de la sucursal: "; 
-    cin >> schedule;
+    getline(cin, schedule);
+    cin.ignore();
+    
 
-        while (x + y == 0)  //Para asegurar que las coordenadas (0,0) no se repitan
-        {
-            
-            x = rand() % 500;
-            y = rand() % 500;
-        }
+    while (x + y == 0)  //Para asegurar que las coordenadas (0,0) no se repitan
+    {
+        
+        x = rand() % 500;
+        y = rand() % 500;
+    }
     
     NodeVertex *ref = new NodeVertex(nameSucursal, x, y, phone, schedule);
     return ref;
@@ -152,20 +156,19 @@ void ListVertex::deleteAll()
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int ListVertex::distanceCalculator (NodeVertex* actN, NodeVertex* newN)              //Calcula la distancia
-{
+{   
     double distance=0, catx=0, caty=0;                        //Catetos
-    double deltaX, deltaY;
+    if (actN != nullptr and newN != nullptr){
+        
+        double deltaX, deltaY;
 
-    deltaX = newN -> x - actN -> x;
-    deltaY = newN -> y - actN -> y;
+        deltaX = newN -> x - actN -> x;
+        deltaY = newN -> y - actN -> y;
 
-    distance = sqrt((deltaX * deltaX) + (deltaY * deltaY));
+        distance = sqrt((deltaX * deltaX) + (deltaY * deltaY));   
+    }
+    return distance;
     
-
-
-
-
-
     // bool difSignx = (actN->x*newN->x < 0) ? true : false;  //Para saber si son de signos diferentes o iguales 
     // bool difSigny = (actN->y*newN->y < 0) ? true : false;  //Para saber si son de signos diferentes o iguales
 
@@ -184,8 +187,6 @@ int ListVertex::distanceCalculator (NodeVertex* actN, NodeVertex* newN)         
     // {
     // distance = catx + caty;
     // }
-
-    return distance;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -200,20 +201,24 @@ NodeVertex* ListVertex::searchingData(string name)            //Retorna puntero 
             {
                 if (ref->nameSucursal == name)
                 {
-                flag = false;
+                    flag = false;
                 }
                 else
                 {
-                ref=ref->next;
+                    ref=ref->next;
                 }
             }
         }
     else 
-        {
+    {
         cout << "La lista de sucursales esta vacia" << endl;
-        }
+    }
 
     return ref;
 }
 
-ListVertex::~ListVertex(){}
+ListVertex::~ListVertex(){
+    if(!IsEmpty()){
+        deleteAll();
+    }
+}

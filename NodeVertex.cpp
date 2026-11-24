@@ -26,6 +26,7 @@ NodeVertex::NodeVertex(string nameSucursal, int x, int y, string phone, string s
     this -> x = x;
     this -> y = y;
     this -> phone = phone;
+    this -> schedule = schedule;
     next = nullptr;
     edges;
 }

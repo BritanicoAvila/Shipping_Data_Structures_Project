@@ -23,7 +23,7 @@ class NodeVertex
     private:
         NodeVertex* next = nullptr;
         ListEdges edges;
-        std::vector<NodeEdges*> edgesDirections; 
+        // std::vector<NodeEdges*> edgesDirections; =
         //Vector o lista de direcciones tipo NodeEdges*
 
         string nameSucursal = "";
@@ -31,8 +31,8 @@ class NodeVertex
         string phone = "";
         string schedule = "";
 
-        int getNumEdges();
-        int getHeaviestA();
+        // int getNumEdges();
+        // int getHeaviestA();
         
         friend class ListEdges;
         friend class NodeEdges;

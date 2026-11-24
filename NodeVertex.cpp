@@ -8,9 +8,11 @@ NodeVertex::NodeVertex(){
     //funcionSiEsElUnicoNodo()
     phone = "";
     schedule = "";
+    x = 0;
+    y = 0;
 }
 
-NodeVertex::NodeVertex(string nameSucursal, int x, int y, string phone, string schedule, NodeVertex* next, ListEdges){
+NodeVertex::NodeVertex(string nameSucursal, int x, int y, string phone, string schedule, NodeVertex* next, ListEdges edges){
     this -> nameSucursal = nameSucursal;
     this -> x = x;
     this -> y = y;
@@ -18,6 +20,7 @@ NodeVertex::NodeVertex(string nameSucursal, int x, int y, string phone, string s
     this -> schedule = schedule;
 
     this -> next = next;
+    this -> edges = edges;
 }
 
 NodeVertex::NodeVertex(string nameSucursal, int x, int y, string phone, string schedule)

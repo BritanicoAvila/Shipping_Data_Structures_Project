@@ -210,14 +210,14 @@ void ListVertex::balancerSetter(NodeVertex* node)     //Balancea los nuevos nodo
             {
                 if (distanceCalculator(node, aux) < aux->edges.heaviest)  //Para actualizar las sucursales si se necesita tambien
                 {
-                aux->edges.insert(aux, distanceCalculator(node, aux));  //Agregamos a la lista de aristas
-                aux->edges.deleteEdges(aux);                            //Eliminamos arista con mayor peso
+                    aux->edges.insert(aux, distanceCalculator(node, aux));  //Agregamos a la lista de aristas
+                    aux->edges.deleteEdges(aux);                            //Eliminamos arista con mayor peso
                 }
-            node->edges.insert(aux, distanceCalculator(node, aux));  //Agregamos a la lista de aristas
-            node->edges.deleteEdges(node);      //Actualizamos la arista con mayor peso
+                node->edges.insert(aux, distanceCalculator(node, aux));  //Agregamos a la lista de aristas
+                node->edges.deleteEdges(node);      //Actualizamos la arista con mayor peso
             }
-        aux = aux->next;
         }
+        aux = aux->next;
     }
 }
 

@@ -23,15 +23,22 @@ bool ListEdges::IsEmpty()
     }
     return flag;
 }
+
 void ListEdges::showAll()
 {
-    NodeEdges *jumper = h;
+    if (IsEmpty()){
+        cout << "No hay sucursales disponibles!";
+        return;
+    }
+
+    NodeEdges* aux = h;
     int cont = 0;
-    while (!jumper)
+    while (aux != nullptr)
     {   //Apuntamos a la parte direccion (al nodoV) y extraemos los datos que necesitemos
-        cout << "Sucursal: " << cont << " -> " << jumper->direction->nameSucursal << endl;
+        cout << "Sucursal No." << cont << " : -> " << aux->direction->nameSucursal << endl;
+        cout << "Peso: " << aux -> weight << endl;
         cont++;
-        jumper = jumper -> next;
+        aux = aux -> next;
     }
 }
 
@@ -55,6 +62,10 @@ void ListEdges::insert(NodeVertex* directionA, int weight) // Direction ADD a la
 }
 void ListEdges::deleteAll()
 {
+    if (IsEmpty()){
+        return;
+    }
+
     NodeEdges *tmp = h;
     if (h)
     {
@@ -65,6 +76,8 @@ void ListEdges::deleteAll()
             tmp=h;
         }
         cout << "La sucursal ya no tiene conexiones" << endl;
+        numEdges = 0;
+        heaviest = 0;
     }
     else
     {
@@ -76,47 +89,79 @@ void ListEdges::deleteAll()
 
 void ListEdges::deleteEdges(NodeVertex* directionD)  //Direction to Delete
 {
-    NodeEdges *tmp = new NodeEdges(directionD);
-    NodeEdges *jumper = h, *jumperBefore=nullptr;
-    bool flag = true;
-    if (h)
+    if (IsEmpty() or directionD == nullptr){
+        cout << "No se encontro sucursal";
+        return;
+    }
+    NodeEdges* aux = h;
+
+    if (directionD == h -> direction)
     {
-        while (jumper && flag)
-        {
-            if (tmp->direction == jumper->direction)
-            {
-                tmp=jumper;   //Debido a que jumper saltara la nextuiente posicion
-                flag = false;
-            }
-            if (flag) //jumper1 = jumper->ant ... asi solo se actualiza si no se ha encontrado el nodo buscado
-            {
-                jumperBefore = jumper;
-            }
-            
-            jumper = jumper -> next;  //Jumper salta +1 aunque flag = false
-        }
-
-
-        if (tmp = h) //0x
-        {
-            h = tmp->next;
-            delete tmp;
-        }
-        else if (flag)  // Si flag = true, entonces la direccion no existe
-        {
-            cout << "Conexion no encontrada..." << endl;
-        }
-        else 
-        {
-            jumperBefore->next = tmp->next;
-            delete tmp;
-        }
+        h = h -> next;
+        delete aux;
         numEdges--;
     }
-    else 
+    else
     {
-        cout << "La sucursar analizada no tiene conexiones" << endl;
+        NodeEdges* tmp = nullptr;
+        while (aux != nullptr and aux -> direction != directionD)
+        {
+            tmp = aux;
+            aux = aux -> next;
+        }
+
+        if (aux != nullptr and aux -> direction == directionD)
+        {
+            tmp -> next = aux -> next;
+
+            delete aux;
+            numEdges--;
+        }
     }
+
+    // NodeEdges* aux = h;
+    // NodeEdges* auxBefore = nullptr;
+    // NodeEdges* tmp = new NodeEdges();
+    // bool flag = true;
+    // if (h)
+    // {
+    //     while (aux && flag)
+    //     {
+    //         if (aux->direction == directionD)
+    //         {
+    //             tmp=aux;   //Debido a que aux saltara la nextuiente posicion
+    //             flag = false;
+    //         }
+    //         if (flag) //aux1 = aux->ant ... asi solo se actualiza si no se ha encontrado el nodo buscado
+    //         {
+    //             auxBefore = aux;
+    //         }
+            
+    //         aux = aux -> next;  //aux salta +1 aunque flag = false
+    //     }
+
+
+    //     if (tmp == h) //0x
+    //     {
+    //         h = tmp->next;
+    //         delete tmp;
+    //         numEdges--;
+    //     }
+    //     else if (flag)  // Si flag = true, entonces la direccion no existe
+    //     {
+    //         cout << "Conexion no encontrada..." << endl;
+    //     }
+    //     else 
+    //     {
+    //         auxBefore->next = tmp->next;
+    //         delete tmp;
+    //         numEdges--;
+    //     }
+    // }
+    // else 
+    // {
+    //     cout << "La sucursar analizada no tiene conexiones" << endl;
+    // }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -147,11 +192,30 @@ NodeVertex* ListEdges::searchingData(string name)            //Retorna puntero d
     return ref;
 }
 
+bool ListEdges::hasEdge(NodeVertex* target)
+{
+    if (target == nullptr)
+    {
+        return false;
+    }
+
+    NodeEdges* aux = h;
+    while (aux != nullptr)
+    {
+        if (aux->direction == target)
+        {
+            return true;
+        }
+        aux = aux->next;
+    }
+    return false;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int ListEdges::setHeaviest()        //Acctualiza la arista mas pesada
 {
-    int heaviest=0;
+    heaviest = 0;
     if (h)
         {  
         NodeEdges *aux = h;
@@ -172,8 +236,37 @@ int ListEdges::setHeaviest()        //Acctualiza la arista mas pesada
     return heaviest; 
 }
 
+void ListEdges::deleteHeaviest()
+{
+    if (IsEmpty())
+    {
+        return;
+    }
+
+    NodeEdges* aux = h;
+    NodeEdges* heaviestEdge = h;
+    while (aux != nullptr)
+    {
+        if (aux->weight > heaviestEdge->weight)
+        {
+            heaviestEdge = aux;
+        }
+        aux = aux->next;
+    }
+
+    deleteEdges(heaviestEdge->direction);
+    if (!IsEmpty())
+    {
+        setHeaviest();
+    }
+    else
+    {
+        heaviest = 0;
+    }
+}
+
 
 ListEdges::~ListEdges()
 {
-    //dtor
+    deleteAll();
 }

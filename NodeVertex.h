@@ -33,8 +33,7 @@ class NodeVertex
 
         int getNumEdges();
         int getHeaviestA();
-
-
+        
         friend class ListEdges;
         friend class NodeEdges;
         friend class ListVertex;

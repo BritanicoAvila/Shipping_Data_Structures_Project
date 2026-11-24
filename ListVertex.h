@@ -33,11 +33,12 @@ class ListVertex
                 //////////                                             Operadores                                       //////////
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                void insert();         
-                void deleteAll();
-                void deleteVertex(NodeVertex*);
-                NodeVertex* fuller();            //Llena el nodo vertex
-                int distanceCalculator (NodeVertex*, NodeVertex*);              //Calcula la distancia entre 2 nodos
+        void insert();         
+        void deleteAll();
+        void deleteVertex(NodeVertex*);
+        NodeVertex* fuller();            //Llena el nodo vertex
+        int distanceCalculator (NodeVertex*, NodeVertex*);              //Calcula la distancia entre 2 nodos
+        void balancerSetter(NodeVertex*);
 
 
 

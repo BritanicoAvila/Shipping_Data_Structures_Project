@@ -189,6 +189,62 @@ int ListVertex::distanceCalculator (NodeVertex* actN, NodeVertex* newN)         
     // }
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void ListVertex::balancerSetter(NodeVertex* node)     //Balancea los nuevos nodos (les pone aristas)
+{
+    NodeVertex *aux = h;
+
+    if (vertexNumber < 4)      //Solo agregamos sin preocuparnos por ver cuantas hay
+    {
+        while (aux)
+        {
+            if (aux != node)   //Para que no inserte una arista a si mismo
+            {
+            node->edges.insert(aux, distanceCalculator(node, aux));  //Agregamos a la lista de aristas
+            node->edges.heaviest = node->edges.setHeaviest();        //Actualizamos la arista con mayor peso
+            }
+        aux = aux->next;
+        }
+    }
+    else           //Hay que ser selectivos pues NUMVERTEX < 4
+    {
+
+    int minEdges = 1;                                  //Inicia en uno por:
+    aux = (aux == node) ? aux->next : aux ;            //Como el nuevo nodo siempre es h, no podemos permitir que
+    node->edges.insert(aux, distanceCalculator(node, aux));  //apunte a si mismo, y sabemos que hay mas de 4 vertices
+    node->edges.heaviest = node->edges.setHeaviest();
+        
+        while (aux)
+        {
+            if (minEdges < 4)
+            {
+            node->edges.insert(aux, distanceCalculator(node, aux));  //Agregamos a la lista de aristas
+            node->edges.heaviest = node->edges.setHeaviest();        //Actualizamos la arista con mayor peso
+            minEdges ++;
+            }
+            else if (distanceCalculator(node, aux) < node->edges.heaviest) //Distancia menor a menor distancia actual
+            {
+            node->edges.insert(aux, distanceCalculator(node, aux));  //Agregamos a la lista de aristas
+            //Un metodo que elimine la heaviest         --------------------------------------------------------------------aqui--------------------------
+            node->edges.heaviest = node->edges.setHeaviest();        //Actualizamos la arista con mayor peso
+            }
+        aux = aux->next;
+        }
+    }
+    // else                       //Recorrido rapido para actualizar nodos si es necesario
+    // {
+    //     while (aux)
+    //     {
+    //         if (node->edges.distanceCalculator(node, aux) < aux)
+    //         {
+                                           //ESTA VERSION ES DE OTRO METODO QUE ACTUALIZA ARISTAS
+    //         }                           //EL OTRO LAS AÑADE A LOS NUEVOS VERTICES
+    //         aux = aux->next;            //ESTE VA A ACTUALIZAR LAS QUE YA EXISTEN
+    //     }
+    // }
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 NodeVertex* ListVertex::searchingData(string name)            //Retorna puntero de NodeV buscandolo con el nombre de la Sucursal

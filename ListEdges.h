@@ -41,6 +41,7 @@ class ListEdges
         int heaviest;
 
         friend class NodeEdges;
+        friend class ListVertex;
         friend class NodeVertex;
         friend class Graph;
 };

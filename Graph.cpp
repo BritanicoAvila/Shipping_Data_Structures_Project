@@ -28,11 +28,12 @@ void Graph::newVertex ()
 }
 void Graph::newEdge ()
 {
-    if (vertex.vertexNumber >= 2)
+    if (vertex.vertexNumber >= 2)    //Hay minimo 2 vertices
     {
     cout << "Imprimiendo lista actual de sucursales: " << endl;
     vertex.showAll();
     string sucursal = "";
+    NodeVertex *from, *to = nullptr;
     bool flag = true;
 
         while (flag)       //Si esta cosa devuelve un puntero valido
@@ -43,6 +44,7 @@ void Graph::newEdge ()
             if (vertex.searchingData(sucursal))        //Si esta cosa devuelve un puntero valido
             {
             flag = false;
+            from = vertex.searchingData(sucursal);
             }
             else
             {
@@ -50,6 +52,24 @@ void Graph::newEdge ()
             }
         }
         ////////////////////////////////////////////////////////////////////////
+        flag = true;
+                while (flag)       //Si esta cosa devuelve un puntero valido
+        {
+        cout << "Introduzca el nombre de la sucursal al que apunta el enlace: ";
+        cin >> sucursal;
+
+            if (vertex.searchingData(sucursal))        //Si esta cosa devuelve un puntero valido
+            {
+            flag = false;
+            to = vertex.searchingData(sucursal);
+            }
+            else
+            {
+            cout << "Sucursal no encontrada, revise sus datos y vuelva a intentarlo..." << endl << endl;
+            }
+        }
+    from->edges.insert(to, vertex.distanceCalculator(from, to));   //Agrega la arista con los parametros necesarios
+    //FALTA EL VECTOR DE DIRECCIONES PARA ACTUALIZARSE
     }
     else
     {
@@ -88,6 +108,7 @@ void Graph::deleteVertex()
 
     vertex.deleteVertex(vertex.searchingData(sucursal));
     vertex.generalBalancer();
+    //FALTA LA LISTA DE DIRECCIONES PARA BORRAR LAS ARISTAS QUE LO APUNTAN
 
     }
 

@@ -25,59 +25,70 @@ void Graph::newVertex ()
 {
     vertex.insert();
     vertex.balancerSetter(vertex.h);
+    vertex.generalBalancer();
 }
-void Graph::newEdge ()
+void Graph::newEdge()
 {
-    if (vertex.vertexNumber >= 2)    //Hay minimo 2 vertices
-    {
+    if(vertex.vertexNumber < 2){
+        cout << "Sucursales insuficientes como para establecer conexiones" << endl;
+        return;
+    }
+
     cout << "Imprimiendo lista actual de sucursales: " << endl;
     vertex.showAll();
+    
     string sucursal = "";
     NodeVertex *from, *to = nullptr;
-    bool flag = true;
 
-        while (flag)       //Si esta cosa devuelve un puntero valido
-        {
-        cout << "Introduzca el nombre de la sucursal del origen del enlace: ";
-        cin >> sucursal;
-
-            if (vertex.searchingData(sucursal))        //Si esta cosa devuelve un puntero valido
-            {
-            flag = false;
-            from = vertex.searchingData(sucursal);
-            }
-            else
-            {
-            cout << "Sucursal no encontrada, revise sus datos y vuelva a intentarlo..." << endl << endl;
-            }
-        }
-        ////////////////////////////////////////////////////////////////////////
-        flag = true;
-                while (flag)       //Si esta cosa devuelve un puntero valido
-        {
-        cout << "Introduzca el nombre de la sucursal al que apunta el enlace: ";
-        cin >> sucursal;
-
-            if (vertex.searchingData(sucursal))        //Si esta cosa devuelve un puntero valido
-            {
-            flag = false;
-            to = vertex.searchingData(sucursal);
-            }
-            else
-            {
-            cout << "Sucursal no encontrada, revise sus datos y vuelva a intentarlo..." << endl << endl;
-            }
-        }
-    from->edges.insert(to, vertex.distanceCalculator(from, to));   //Agrega la arista con los parametros necesarios
-    //FALTA EL VECTOR DE DIRECCIONES PARA ACTUALIZARSE
-    }
-    else
+    while (from == nullptr)
     {
-        cout << "Sucursales insuficientes como para establecer conexiones" << endl;
+        cout << "Introduzca el nombre de la sucursal del origen del enlace: ";
+        getline(cin, sucursal);
+        from == vertex.searchingData(sucursal);
+
+        if(from == nullptr) 
+        {
+            cout << "Sucursal no encontrada, revise sus datos y vuelva a intentarlo...!" << endl << endl;
+        }
     }
-//verifica si hay vertices
-//imprime todos o pide nombre?
-//inserta y conecta...
+
+
+    if (from -> edges.numEdges >= vertex.vertexNumber - 1) 
+    {
+        cout << "Esta sucursal ya esta conectada con todas las demas sucursales." << endl;
+        return;
+    }
+    
+
+    while(to == nullptr){
+        cout << "Introduzca el nombre de la sucursal a la que apunta el enlace: " << endl;
+        getline(cin, sucursal);
+        NodeVertex* candidate = vertex.searchingData(sucursal);
+
+        if(candidate == nullptr)
+        {
+            cout << "Sucursal no encontrada, revise sus datos y vuelva a intentarlo ..." << endl << endl;
+        }
+        else if (candidate == from)
+        {
+            cout <<"No puedes conectar una sucursal consigo misma." << endl << endl;
+        }
+        else if (from -> edges.hasEdge(candidate)){
+            cout << "Esa conexion ya existe, elija otro destino." << endl << endl;
+        }
+        else {
+            to = candidate;
+        }
+    }
+
+    int weight = vertex.distanceCalculator(from, to);
+    from -> edges.insert(to, weight);
+    from -> edges.setHeaviest();
+    cout << "Conexion agregada: " << from -> nameSucursal << "-> " << 
+    to -> nameSucursal << "(Peso: )" << weight << ")" << endl;
+
+
+    //from->edges.insert(to, vertex.distanceCalculator(from, to));   //Agrega la arista con los parametros necesarios
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////

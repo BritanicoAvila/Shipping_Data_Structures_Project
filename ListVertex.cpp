@@ -18,10 +18,25 @@ ListVertex::ListVertex()
 NodeVertex* ListVertex::fuller()  //Llena la informacion de una nueva sucursal y le da coordenadas random
 {   
     int x=0, y=0;
-    //srand(time(0)) HAY QUE MOVER ESTO A MAIN;
     string nameSucursal, phone, schedule;
-    cout << endl << "Introduzca el nombre de la sucursal: "; 
-    getline(cin, nameSucursal);    
+    //srand(time(0)) HAY QUE MOVER ESTO A MAIN;
+    do
+    {
+        cout << endl << "Introduzca el nombre de la sucursal: "; 
+        getline(cin, nameSucursal); 
+        
+        if (nameSucursal.empty())
+        {
+            cout << "El nombre no puede estar vacio." << endl;
+        } 
+        else if (h != nullptr && searchingData(nameSucursal) != nullptr)
+        {
+            cout << "Ya existe una sucursal con ese nombre, intente otro." << endl;
+        }
+        
+    } while (nameSucursal.empty() || (h != nullptr && searchingData(nameSucursal) != nullptr));
+    
+    
     cout << endl << "Introduzca el numero telefonico de la sucursal: "; 
     getline(cin, phone);
     cout << endl << "Introduzca el horario de la sucursal: "; 
@@ -188,63 +203,133 @@ int ListVertex::distanceCalculator (NodeVertex* actN, NodeVertex* newN)         
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void ListVertex::balancerSetter(NodeVertex* node)     //Balancea los nuevos nodos (les pone aristas)
-{
-    if (node == nullptr || h == nullptr)
-    {
-        return;
-    }
+// void ListVertex::balancerSetter(NodeVertex* node)     //Balancea los nuevos nodos (les pone aristas)
+// {
+//     if (node == nullptr || h == nullptr)
+//     {
+//         return;
+//     }
 
-    NodeVertex* aux = h;
-    while (aux != nullptr)
-    {
-        if (aux != node && !node->edges.hasEdge(aux))   //Evita auto-aristas y aristas duplicadas
-        {
-            int dist = distanceCalculator(node, aux);
-            if (node->edges.numEdges < 4)
-            {
-                node->edges.insert(aux, dist);          //Agregamos a la lista de aristas
-                node->edges.setHeaviest();              //Actualizamos la arista con mayor peso
-            }
-            else if (dist < node->edges.heaviest)       //Si es mas cercana que la arista mas pesada actual
-            {
-                if (distanceCalculator(node, aux) < aux->edges.heaviest)  //Para actualizar las sucursales si se necesita tambien
-                {
-                    aux->edges.insert(node, distanceCalculator(node, aux));  //Agregamos a la lista de aristas
-                        if (aux->edges.numEdges > 4)
-                        {
-                        aux->edges.deleteHeaviest();      //Eliminamos arista con mayor peso (solo si tiene mas de 4)
-                        }                           
-                }
-                node->edges.insert(aux, distanceCalculator(node, aux));  //Agregamos a la lista de aristas
-                node->edges.deleteHeaviest();      //Actualizamos la arista con mayor peso
-            }
-        }
-        aux = aux->next;
+//     NodeVertex* aux = h;
+//     while (aux != nullptr)
+//     {  
+//         int dist = distanceCalculator(node, aux);
+
+//         if (aux != node && !node->edges.hasEdge(aux))   //Evita auto-aristas y aristas duplicadas
+//         {
+//             if (!(aux->edges.hasEdge(node)))
+//             {
+                
+//             }
+//             if (node->edges.numEdges < 4)
+//             {
+//                 node->edges.insert(aux, dist);          //Agregamos a la lista de aristas
+//                 node->edges.setHeaviest();              //Actualizamos la arista con mayor peso
+//             }
+//             else if (dist < node->edges.heaviest)       //Si es mas cercana que la arista mas pesada actual
+//             {
+//                 if ( distanceCalculator(node, aux) < aux -> edges.heaviest)  //Para actualizar las sucursales si se necesita tambien
+//                 {
+//                     aux-> edges.insert(node, distanceCalculator(node, aux));  //Agregamos a la lista de aristas
+//                         if (aux->edges.numEdges > 4)
+//                         {
+//                             aux->edges.deleteHeaviest();      //Eliminamos arista con mayor peso (solo si tiene mas de 4)
+//                         }                           
+//                 }
+//                 node->edges.insert(aux, distanceCalculator(node, aux));  //Agregamos a la lista de aristas
+//                 node->edges.deleteHeaviest();      //Actualizamos la arista con mayor peso
+//             }
+//         }
+//         aux = aux->next;
+//     }
+// }
+
+void ListVertex::balancerSetter(NodeVertex* node)                                                                            
+    {                                                                                                                            
+        if (node == nullptr || h == nullptr)                                                                                     
+        {                                                                                                                        
+            return;                                                                                                              
+        }                                                                                                                        
+                                                                                                                                 
+        NodeVertex* aux = h;                                                                                                     
+        while (aux != nullptr)                                                                                                   
+        {                                                                                                                        
+            if (aux != node)                                                                                                     
+            {                                                                                                                    
+                int dist = distanceCalculator(node, aux);                                                                        
+                                                                                                                                 
+                // 1) Ajustar aristas salientes de 'node' hacia 'aux'                                                            
+                if (!node->edges.hasEdge(aux))                                                                                   
+                {                                                                                                                
+                    if (node->edges.numEdges < 4)                                                                                
+                    {                                                                                                            
+                        node->edges.insert(aux, dist);                                                                           
+                        node->edges.setHeaviest();                                                                               
+                    }                                                                                                            
+                    else if (dist < node->edges.heaviest)                                                                        
+                    {                                                                                                            
+                        node->edges.deleteHeaviest();                                                                            
+                        node->edges.insert(aux, dist);                                                                           
+                        node->edges.setHeaviest();                                                                               
+                    }                                                                                                            
+                }                                                                                                                
+                                                                                                                                 
+                // 2) Ajustar aristas salientes de 'aux' hacia 'node'                                                            
+                if (!aux->edges.hasEdge(node))                                                                                   
+                {                                                                                                                
+                    if (aux->edges.numEdges < 4)                                                                                 
+                    {                                                                                                            
+                        aux->edges.insert(node, dist);                                                                           
+                        aux->edges.setHeaviest();                                                                                
+                    }                                                                                                            
+                    else if (dist < aux->edges.heaviest)                                                                         
+                    {                                                                                                            
+                        aux->edges.deleteHeaviest();                                                                             
+                        aux->edges.insert(node, dist);                                                                           
+                        aux->edges.setHeaviest();                                                                                
+                    }                                                                                                            
+                }                                                                                                                
+            }                                                                                                                    
+            aux = aux->next;                                                                                                     
+        }                                                                                                                        
     }
-}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 NodeVertex* ListVertex::getLighter(NodeVertex* sucursal)  //Devuelve la sucursal 
 {
+    if(sucursal == nullptr || h == nullptr)
+    {
+        return nullptr;
+    }
+
     NodeVertex *actN = h;             //DEVUELVE LA SUCURSAL MAS CERCANA A LA PASADA POR REFERENCIA
     NodeVertex *ref = nullptr;
-    bool found = true;
+    int minDist = 0;
+    // bool found = true;
     
-        while (actN)
+        while (actN != nullptr)
         {
-            if (!sucursal->edges.hasEdge(actN) && found && actN != sucursal)    //Si no es una arista ya
+            if (actN != sucursal && !sucursal -> edges.hasEdge(actN))
             {
-            ref = actN;
-            found = false;
+                int dist = distanceCalculator(sucursal, actN);
+                if (ref == nullptr || dist < minDist)
+                {
+                    ref = actN;
+                    minDist = dist;
+                }
+                
+                // ref = actN;
+                // found = false;
             }
-            else if (ref->edges.heaviest > actN->edges.heaviest && !sucursal->edges.hasEdge(actN) && !found && actN != sucursal) //Si ya tenemos un valor de referenca y encontramos un nodo mas cercano lo cambiamos
-            {
-            ref = actN;
-            }
-        actN = actN->next;
+            actN = actN -> next;
         }
+        //     else if (ref->edges.heaviest > actN->edges.heaviest && !sucursal->edges.hasEdge(actN) && !found && actN != sucursal) //Si ya tenemos un valor de referenca y encontramos un nodo mas cercano lo cambiamos
+        //     {
+        //     ref = actN;
+        //     }
+        // actN = actN->next;
+        // }
     return ref;
 }
 
@@ -252,18 +337,36 @@ NodeVertex* ListVertex::getLighter(NodeVertex* sucursal)  //Devuelve la sucursal
 
 void ListVertex::generalBalancer()
 {
-    NodeVertex *actN = h;
-    if (h && vertexNumber > 4)   //Tiene el enfoque de balancear tras una eliminacion ¿como balanceamos si no hay suficientes vetices?
+    if (h == nullptr || vertexNumber <= 4) return;
+
+    NodeVertex* actN = h;
+
+    while (actN != nullptr)
     {
-        while (actN)    //AVANZA TODA LA LISTA DE VERTICES, Y SI UNO NO TIENE 4 ARISTAS LE ASIGNA UNA
+        while (actN -> edges.numEdges < 4)
         {
-            if (actN->edges.numEdges < 4)   //Si este nodo tiene menos de 4 aristas
-            {
-            actN->edges.insert(getLighter(actN), distanceCalculator(actN, getLighter(actN)));  //NI PREGUNTE ... asigna una nueva arista, que se enlaza automaticamente al nodo mas cercano
-            }
-        actN = actN->next;
+            NodeVertex* target = getLighter(actN);
+            if(target == nullptr) break;
+
+            actN -> edges.insert(target, distanceCalculator(actN, target));
+            actN -> edges.setHeaviest();
         }
+        actN = actN -> next;
     }
+    
+
+
+    // if (h && vertexNumber > 4)   //Tiene el enfoque de balancear tras una eliminacion ¿como balanceamos si no hay suficientes vetices?
+    // {
+    //     while (actN)    //AVANZA TODA LA LISTA DE VERTICES, Y SI UNO NO TIENE 4 ARISTAS LE ASIGNA UNA
+    //     {
+    //         if (actN->edges.numEdges < 4)   //Si este nodo tiene menos de 4 aristas
+    //         {
+    //         actN->edges.insert(getLighter(actN), distanceCalculator(actN, getLighter(actN)));  //NI PREGUNTE ... asigna una nueva arista, que se enlaza automaticamente al nodo mas cercano
+    //         }
+    //     actN = actN->next;
+    //     }
+    // }
 } 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

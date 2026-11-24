@@ -99,7 +99,7 @@ void ListVertex::insert() // Direction ADD a la que apuntamos
     vertexNumber++;
 }
 
-void ListVertex::deleteVertex(NodeVertex* vertex){
+void ListVertex::deleteVertex(NodeVertex* vertex){  //HEY, ESTA COSA DEBE ELIMINAR LAS ARISTAS QUE LO APUNTAN USANDO EL VECTOR DE DIRECCIONES
     if (IsEmpty() or vertex == nullptr){
         cout << "No se encontro sucursal";
         return;
@@ -211,36 +211,38 @@ void ListVertex::balancerSetter(NodeVertex* node)     //Balancea los nuevos nodo
                 if (distanceCalculator(node, aux) < aux->edges.heaviest)  //Para actualizar las sucursales si se necesita tambien
                 {
                 aux->edges.insert(aux, distanceCalculator(node, aux));  //Agregamos a la lista de aristas
-                //Un metodo que elimine la heaviest         --------------------------------------------------------------------aqui--------------------------
-                aux->edges.heaviest = aux->edges.setHeaviest();        //Actualizamos la arista con mayor peso
+                aux->edges.deleteEdges(aux);                            //Eliminamos arista con mayor peso
                 }
             node->edges.insert(aux, distanceCalculator(node, aux));  //Agregamos a la lista de aristas
-            //Un metodo que elimine la heaviest         --------------------------------------------------------------------aqui--------------------------
-            node->edges.heaviest = node->edges.setHeaviest();        //Actualizamos la arista con mayor peso
+            node->edges.deleteEdges(node);      //Actualizamos la arista con mayor peso
             }
         aux = aux->next;
+        }
     }
-    // else                       //Recorrido rapido para actualizar nodos si es necesario
-    // {
-    //     while (aux)
-    //     {
-    //         if (node->edges.distanceCalculator(node, aux) < aux)
-    //         {
-                                           //ESTA VERSION ES DE OTRO METODO QUE ACTUALIZA ARISTAS
-    //         }                           //EL OTRO LAS AÑADE A LOS NUEVOS VERTICES
-    //         aux = aux->next;            //ESTE VA A ACTUALIZAR LAS QUE YA EXISTEN
-    //     }
-    // }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-NodeVertex* ListVertex::getLighter (NodeVertex* sucursal)
+NodeVertex* ListVertex::getLighter(NodeVertex* sucursal)  //Devuelve la sucursal 
 {
-    NodeVertex *actN = h;
-    sucursal->edges.heaviest = sucursal->edges.setHeaviest(); //Actualizamos mas pesado
+    NodeVertex *actN = h;             //DEVUELVE LA SUCURSAL MAS CERCANA A LA PASADA POR REFERENCIA
+    NodeVertex *ref = nullptr;
+    bool found = true;
     
-    
+        while (actN)
+        {
+            if (!sucursal->edges.hasEdge(actN) && found && actN != sucursal)    //Si no es una arista ya
+            {
+            ref = actN;
+            found = false;
+            }
+            else if (ref->edges.heaviest > actN->edges.heaviest && !sucursal->edges.hasEdge(actN) && !found && actN != sucursal) //Si ya tenemos un valor de referenca y encontramos un nodo mas cercano lo cambiamos
+            {
+            ref = actN;
+            }
+        actN = actN->next;
+        }
+    return ref;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -250,11 +252,11 @@ void ListVertex::generalBalancer()
     NodeVertex *actN = h;
     if (h && vertexNumber > 4)   //Tiene el enfoque de balancear tras una eliminacion ¿como balanceamos si no hay suficientes vetices?
     {
-        while (actN)
+        while (actN)    //AVANZA TODA LA LISTA DE VERTICES, Y SI UNO NO TIENE 4 ARISTAS LE ASIGNA UNA
         {
             if (actN->edges.numEdges < 4)   //Si este nodo tiene menos de 4 aristas
             {
-
+            actN->edges.insert(getLighter(actN), distanceCalculator(actN, getLighter(actN)));  //NI PREGUNTE ... asigna una nueva arista, que se enlaza automaticamente al nodo mas cercano
             }
         actN = actN->next;
         }

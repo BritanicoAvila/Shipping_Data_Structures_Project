@@ -15,6 +15,8 @@ class ListEdges
 {
     public:
         ListEdges();
+        ListEdges(const ListEdges&);
+        ListEdges& operator=(const ListEdges&);
         ~ListEdges();
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////

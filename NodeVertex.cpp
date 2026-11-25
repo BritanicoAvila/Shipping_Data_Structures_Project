@@ -10,6 +10,9 @@ NodeVertex::NodeVertex(){
     schedule = "";
     x = 0;
     y = 0;
+    Dijk=0;
+    dijState=false;
+    predecessor = nullptr;
 }
 
 NodeVertex::NodeVertex(string nameSucursal, int x, int y, string phone, string schedule, NodeVertex* next, ListEdges edges){
@@ -21,6 +24,10 @@ NodeVertex::NodeVertex(string nameSucursal, int x, int y, string phone, string s
 
     this -> next = next;
     this -> edges = edges;
+
+    Dijk=0;
+    dijState=false;
+    predecessor = nullptr;
 }
 
 NodeVertex::NodeVertex(string nameSucursal, int x, int y, string phone, string schedule)
@@ -32,6 +39,9 @@ NodeVertex::NodeVertex(string nameSucursal, int x, int y, string phone, string s
     this -> schedule = schedule;
     next = nullptr;
     edges;
+    Dijk=0;
+    dijState=false;
+    predecessor = nullptr;
 }
 
 NodeVertex::~NodeVertex()

@@ -156,6 +156,70 @@ ListEdges Graph::Dijkstra (NodeVertex* from, NodeVertex* to)
     return path;
 }
 
+void Graph::runDijkstra()
+{
+    if (vertex.vertexNumber < 2)
+    {
+        cout << "Sucursales insuficientes para calcular un recorrido." << endl;
+        return;
+    }
+
+    cout << "Imprimiendo lista actual de sucursales: " << endl;
+    vertex.showAll();
+
+    string name = "";
+    NodeVertex* from = nullptr;
+    NodeVertex* to = nullptr;
+
+    while (from == nullptr)
+    {
+        cout << "Introduzca el nombre de la sucursal origen: ";
+        getline(cin, name);
+        from = vertex.searchingData(name);
+        if (from == nullptr)
+        {
+            cout << "Sucursal no encontrada, intente de nuevo." << endl;
+        }
+    }
+
+    while (to == nullptr)
+    {
+        cout << "Introduzca el nombre de la sucursal destino: ";
+        getline(cin, name);
+        to = vertex.searchingData(name);
+        if (to == nullptr)
+        {
+            cout << "Sucursal no encontrada, intente de nuevo." << endl;
+        }
+    }
+
+    if (from == to)
+    {
+        cout << "El origen y destino son la misma sucursal (" << from->nameSucursal
+             << "). Distancia total: 0" << endl;
+        return;
+    }
+
+    ListEdges path = Dijkstra(from, to);
+
+    if (path.IsEmpty())
+    {
+        cout << "No existe una ruta dirigida desde " << from->nameSucursal
+             << " hasta " << to->nameSucursal << "." << endl;
+        return;
+    }
+
+    cout << endl << "Recorrido minimo:" << endl;
+    cout << from->nameSucursal;
+    NodeEdges* aux = path.h;
+    while (aux != nullptr)
+    {
+        cout << " --(" << aux->weight << ")--> " << aux->direction->nameSucursal;
+        aux = aux->next;
+    }
+    cout << endl << "Distancia total recorrida: " << to->Dijk << endl;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////                                             Inserciones                                      //////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -264,13 +328,6 @@ void Graph::deleteVertex()
     {
         if(aux != target and aux -> edges.hasEdge(target)){
             aux -> edges.deleteEdges(target);
-            
-            if(!aux -> edges.IsEmpty()){
-                aux -> edges.setHeaviest();
-            }
-            else {
-                aux -> edges.heaviest = 0;
-            }
         }
         aux = aux -> next;
     }
@@ -329,11 +386,6 @@ void Graph::deleteEdge()
     }
 
     from -> edges.deleteEdges(to);
-    if(!from -> edges.IsEmpty()){
-        from->edges.setHeaviest();
-    } else {
-        from -> edges.heaviest = 0;
-    }
 
     cout << "Conexion eliminada correctamente" << endl;
 } 

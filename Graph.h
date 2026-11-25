@@ -3,7 +3,6 @@
 
 #include "ListVertex.h"
 #include "ListEdges.h"
-#include "ListVertex.h"
 #include <iostream>
 
 class Graph
@@ -15,6 +14,7 @@ class Graph
     public:
 
         ListEdges Dijkstra (NodeVertex*, NodeVertex*);
+        void runDijkstra();              // recorrido mínimo (Dijkstra) indicando vértices recorridos
         void newVertex ();               // insertar vértice 
         void newEdge ();                 // insertar arista
         void deleteVertex();             // eliminar vértice

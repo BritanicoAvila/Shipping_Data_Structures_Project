@@ -180,69 +180,7 @@ int ListVertex::distanceCalculator (NodeVertex* actN, NodeVertex* newN)         
         distance = sqrt((deltaX * deltaX) + (deltaY * deltaY));   
     }
     return distance;
-    
-    // bool difSignx = (actN->x*newN->x < 0) ? true : false;  //Para saber si son de signos diferentes o iguales 
-    // bool difSigny = (actN->y*newN->y < 0) ? true : false;  //Para saber si son de signos diferentes o iguales
-
-
-    // catx = (difSignx) ? actN->x + actN->x : actN->x + actN->x*-1;   //Para restar y encontrar la diferencia
-    // caty = (difSigny) ? actN->y + actN->y : actN->y + actN->y*-1;   //Para restar y encontrar la diferencia
-
-    // catx = (catx < 0) ? catx*-1 : catx;    //Para que la raiz nunca sea negativa
-    // caty = (caty < 0) ? caty*-1 : caty;    //Para que la raiz nunca sea negativa
-
-    // if (actN->x != newN->x && actN->y != newN->y)    //Si no son paralelos tenemos que usar pitagoras
-    // {
-    // distance = static_cast<int>(std::sqrt((catx*catx)+(caty*caty)));
-    // }
-    // else   //Si son paralelos solo usamos una suma (pq uno de los dos catetos = 0)
-    // {
-    // distance = catx + caty;
-    // }
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// void ListVertex::balancerSetter(NodeVertex* node)     //Balancea los nuevos nodos (les pone aristas)
-// {
-//     if (node == nullptr || h == nullptr)
-//     {
-//         return;
-//     }
-
-//     NodeVertex* aux = h;
-//     while (aux != nullptr)
-//     {  
-//         int dist = distanceCalculator(node, aux);
-
-//         if (aux != node && !node->edges.hasEdge(aux))   //Evita auto-aristas y aristas duplicadas
-//         {
-//             if (!(aux->edges.hasEdge(node)))
-//             {
-                
-//             }
-//             if (node->edges.numEdges < 4)
-//             {
-//                 node->edges.insert(aux, dist);          //Agregamos a la lista de aristas
-//                 node->edges.setHeaviest();              //Actualizamos la arista con mayor peso
-//             }
-//             else if (dist < node->edges.heaviest)       //Si es mas cercana que la arista mas pesada actual
-//             {
-//                 if ( distanceCalculator(node, aux) < aux -> edges.heaviest)  //Para actualizar las sucursales si se necesita tambien
-//                 {
-//                     aux-> edges.insert(node, distanceCalculator(node, aux));  //Agregamos a la lista de aristas
-//                         if (aux->edges.numEdges > 4)
-//                         {
-//                             aux->edges.deleteHeaviest();      //Eliminamos arista con mayor peso (solo si tiene mas de 4)
-//                         }                           
-//                 }
-//                 node->edges.insert(aux, distanceCalculator(node, aux));  //Agregamos a la lista de aristas
-//                 node->edges.deleteHeaviest();      //Actualizamos la arista con mayor peso
-//             }
-//         }
-//         aux = aux->next;
-//     }
-// }
 
 void ListVertex::balancerSetter(NodeVertex* node)                                                                            
     {                                                                                                                            
@@ -354,19 +292,6 @@ void ListVertex::generalBalancer()
         actN = actN -> next;
     }
     
-
-
-    // if (h && vertexNumber > 4)   //Tiene el enfoque de balancear tras una eliminacion ¿como balanceamos si no hay suficientes vetices?
-    // {
-    //     while (actN)    //AVANZA TODA LA LISTA DE VERTICES, Y SI UNO NO TIENE 4 ARISTAS LE ASIGNA UNA
-    //     {
-    //         if (actN->edges.numEdges < 4)   //Si este nodo tiene menos de 4 aristas
-    //         {
-    //         actN->edges.insert(getLighter(actN), distanceCalculator(actN, getLighter(actN)));  //NI PREGUNTE ... asigna una nueva arista, que se enlaza automaticamente al nodo mas cercano
-    //         }
-    //     actN = actN->next;
-    //     }
-    // }
 } 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

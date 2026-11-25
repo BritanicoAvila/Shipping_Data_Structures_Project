@@ -119,49 +119,6 @@ void ListEdges::deleteEdges(NodeVertex* directionD)  //Direction to Delete
         }
     }
 
-    // NodeEdges* aux = h;
-    // NodeEdges* auxBefore = nullptr;
-    // NodeEdges* tmp = new NodeEdges();
-    // bool flag = true;
-    // if (h)
-    // {
-    //     while (aux && flag)
-    //     {
-    //         if (aux->direction == directionD)
-    //         {
-    //             tmp=aux;   //Debido a que aux saltara la nextuiente posicion
-    //             flag = false;
-    //         }
-    //         if (flag) //aux1 = aux->ant ... asi solo se actualiza si no se ha encontrado el nodo buscado
-    //         {
-    //             auxBefore = aux;
-    //         }
-            
-    //         aux = aux -> next;  //aux salta +1 aunque flag = false
-    //     }
-
-
-    //     if (tmp == h) //0x
-    //     {
-    //         h = tmp->next;
-    //         delete tmp;
-    //         numEdges--;
-    //     }
-    //     else if (flag)  // Si flag = true, entonces la direccion no existe
-    //     {
-    //         cout << "Conexion no encontrada..." << endl;
-    //     }
-    //     else 
-    //     {
-    //         auxBefore->next = tmp->next;
-    //         delete tmp;
-    //         numEdges--;
-    //     }
-    // }
-    // else 
-    // {
-    //     cout << "La sucursar analizada no tiene conexiones" << endl;
-    // }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

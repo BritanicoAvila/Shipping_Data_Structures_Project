@@ -88,7 +88,7 @@ void Graph::newEdge()
     to -> nameSucursal << "(Peso: )" << weight << ")" << endl;
 
 
-    //from->edges.insert(to, vertex.distanceCalculator(from, to));   //Agrega la arista con los parametros necesarios
+    //from->edges.insert(to, vertex.distanceCalculator(from, to));   //Agrega la arista con los parametros necesariosz
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -126,8 +126,63 @@ void Graph::deleteVertex()
 }
 void Graph::deleteEdge()
 {
+    if(vertex.IsEmpty()){
+        cout << "No hay sucursales registradas" << endl;
+        return;
+    }
 
-}     
+    cout << "Imprimiendo lista actual de sucursales: " << endl;
+    vertex.showAll();
+
+    string sucursal = "";
+    NodeVertex* from = nullptr;
+    NodeVertex* to = nullptr;
+
+
+    while (from == nullptr)
+    {
+        cout << "Introduzca el nombre de la sucursal origen de la conexion a eliminar: ";
+        getline(cin, sucursal);
+        from = vertex.searchingData(sucursal);
+
+        if(from == nullptr){
+            cout << "Sucursal no encontrada, intente de nuevo." << endl;
+        }
+    }
+
+    if(from -> edges.IsEmpty())
+    {
+        cout << "Esta sucursal no tiene conexiones para eliminar" << endl;
+        return;
+    }
+
+    cout << "Conexiones actuales de " << from -> nameSucursal <<":" << endl;
+    from -> edges.showAll();
+    
+    while (to == nullptr){
+        cout << "Introduzca el nombre de la sucursal destino a desconectar: ";
+        getline(cin, sucursal);
+
+        NodeVertex* candidate = vertex.searchingData(sucursal);
+
+        if(candidate == nullptr || !(from -> edges.hasEdge(candidate))){
+            cout << "No existe una conexion hacia esa sucursal, intente de nuevo" << endl;
+        } else {
+            to = candidate;
+        }
+    }
+
+    from -> edges.deleteEdges(to);
+    if(!from -> edges.IsEmpty()){
+        from->edges.setHeaviest();
+    } else {
+        from -> edges.heaviest = 0;
+    }
+
+    cout << "Conexion eliminada correctamente" << endl;
+} 
+
+
 void Graph::printGraph()
 {
 

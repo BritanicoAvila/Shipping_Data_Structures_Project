@@ -5,6 +5,7 @@
 
 NodeEdges::NodeEdges()
 {
+    weight = 0;
     next = nullptr;
     direction = nullptr;
 }

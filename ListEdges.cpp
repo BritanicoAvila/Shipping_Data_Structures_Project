@@ -11,6 +11,61 @@ ListEdges::ListEdges() {
     heaviest = 0;                 //Arista mas pesada
 }
 
+ListEdges::ListEdges(const ListEdges& other)
+{
+    h = nullptr;
+    numEdges = 0;
+    heaviest = 0;
+
+    NodeEdges* aux = other.h;
+    NodeEdges* last = nullptr;
+    while (aux != nullptr)
+    {
+        NodeEdges* newNode = new NodeEdges(aux->direction, aux->weight);
+        if (h == nullptr)
+        {
+            h = newNode;
+            last = newNode;
+        }
+        else
+        {
+            last->next = newNode;
+            last = newNode;
+        }
+        numEdges++;
+        aux = aux->next;
+    }
+    heaviest = other.heaviest;
+}
+
+ListEdges& ListEdges::operator=(const ListEdges& other)
+{
+    if (this != &other)
+    {
+        deleteAll();
+        NodeEdges* aux = other.h;
+        NodeEdges* last = nullptr;
+        while (aux != nullptr)
+        {
+            NodeEdges* newNode = new NodeEdges(aux->direction, aux->weight);
+            if (h == nullptr)
+            {
+                h = newNode;
+                last = newNode;
+            }
+            else
+            {
+                last->next = newNode;
+                last = newNode;
+            }
+            numEdges++;
+            aux = aux->next;
+        }
+        heaviest = other.heaviest;
+    }
+    return *this;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////                                             Consultas                                        //////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////

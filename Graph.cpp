@@ -3,10 +3,158 @@
 #include "NodeVertex.h"
 #include "ListVertex.h"
 #include "ListEdges.h"
+#include <iostream>
+#include <climits>
 
 using namespace std;
 
 Graph::Graph(){}
+
+ListEdges Graph::Dijkstra (NodeVertex* from, NodeVertex* to)
+{
+    ListEdges path;
+    if (from == nullptr || to == nullptr || vertex.IsEmpty())
+    {
+        return path;
+    }
+
+    // Inicializamos todos los vertices para empezar Dijkstra desde cero
+    bool foundFrom = false;
+    bool foundTo = false;
+    NodeVertex* aux = vertex.h;
+    while (aux != nullptr)
+    {
+        aux->Dijk = INT_MAX;
+        aux->dijState = false;
+        aux->predecessor = nullptr;
+
+        if (aux == from)
+        {
+            foundFrom = true;
+        }
+        if (aux == to)
+        {
+            foundTo = true;
+        }
+        aux = aux->next;
+    }
+
+    if (!foundFrom || !foundTo)
+    {
+        return path;
+    }
+
+    from->Dijk = 0;
+    if (from == to)
+    {
+        from->dijState = true;
+        return path;
+    }
+
+    // Ciclo principal: buscar el nodo no visitado con menor distancia acumulada
+    bool flag = true;
+    while (flag)
+    {
+        NodeVertex* current = nullptr;
+        aux = vertex.h;
+        while (aux != nullptr)
+        {
+            if (aux->dijState == false && aux->Dijk < INT_MAX)
+            {
+                if (current == nullptr || aux->Dijk < current->Dijk)
+                {
+                    current = aux;
+                }
+            }
+            aux = aux->next;
+        }
+
+        if (current == nullptr || current == to)
+        {
+            if (current != nullptr)
+            {
+                current->dijState = true;
+            }
+            flag = false;
+        }
+        else
+        {
+            current->dijState = true;
+
+            // Revisamos todas las aristas del nodo actual
+            NodeEdges* auxEdge = current->edges.h;
+            while (auxEdge != nullptr)
+            {
+                NodeVertex* neighbor = auxEdge->direction;
+                if (neighbor != nullptr && neighbor->dijState == false && auxEdge->weight >= 0)
+                {
+                    if (current->Dijk <= INT_MAX - auxEdge->weight)
+                    {
+                        int newDist = current->Dijk + auxEdge->weight;
+                        // Solo se cambia si es estrictamente menor (un solo salto de predecesor)
+                        if (newDist < neighbor->Dijk)
+                        {
+                            neighbor->Dijk = newDist;
+                            neighbor->predecessor = current;
+                        }
+                    }
+                }
+                auxEdge = auxEdge->next;
+            }
+        }
+    }
+
+    // Reconstruimos los saltos minimos regresando desde 'to' hasta 'from'
+    if (to->predecessor != nullptr)
+    {
+        NodeVertex* node = to;
+        while (node != nullptr && node != from)
+        {
+            NodeVertex* prev = node->predecessor;
+            if (prev == nullptr)
+            {
+                path.deleteAll();
+                break;
+            }
+
+            // Buscamos el peso de la arista que va de prev a node
+            int edgeWeight = 0;
+            bool found = false;
+            NodeEdges* auxEdge = prev->edges.h;
+            while (auxEdge != nullptr)
+            {
+                if (auxEdge->direction == node)
+                {
+                    if (!found || auxEdge->weight < edgeWeight)
+                    {
+                        edgeWeight = auxEdge->weight;
+                        found = true;
+                    }
+                }
+                auxEdge = auxEdge->next;
+            }
+
+            // Como insert mete al inicio de la lista, queda ordenada de from -> to
+            path.insert(node, edgeWeight);
+            node = prev;
+        }
+
+        if (!path.IsEmpty())
+        {
+            path.setHeaviest();
+        }
+    }
+
+    // Limpiamos los predecesores para no dejar punteros colgando si luego borran un vertice
+    aux = vertex.h;
+    while (aux != nullptr)
+    {
+        aux->predecessor = nullptr;
+        aux = aux->next;
+    }
+
+    return path;
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////                                             Inserciones                                      //////////

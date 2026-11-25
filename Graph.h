@@ -14,18 +14,18 @@ class Graph
 
     public:
 
+        ListEdges Dijkstra (NodeVertex*, NodeVertex*);
         void newVertex ();               // insertar vértice 
         void newEdge ();                 // insertar arista
         void deleteVertex();             // eliminar vértice
         void deleteEdge();               // eliminar arista
         void printGraph();               // imprimir listado de vértice/arista
-    // void kruskal();                  // realizar un recorrido mínimo (prim, kruskal, djistra) , e indicar los vertices que se recorren 
 
 
         Graph(/* args */);
         ~Graph();
 };
 
-#endif
+#endif // GRAPH_H
 
 

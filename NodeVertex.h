@@ -22,6 +22,10 @@ class NodeVertex
     private:
         NodeVertex* next = nullptr;
         ListEdges edges;
+
+        int Dijk;            //PARA Dijkstra
+        bool dijState;
+        NodeVertex* predecessor;
         // std::vector<NodeEdges*> edgesDirections; =
         //Vector o lista de direcciones tipo NodeEdges*
 

@@ -10,6 +10,9 @@ NodeVertex::NodeVertex(){
     schedule = "";
     x = 0;
     y = 0;
+    Dijk=0;
+    dijState=false;
+    predecessor = nullptr;
 }
 
 NodeVertex::NodeVertex(string nameSucursal, int x, int y, string phone, string schedule)
@@ -20,6 +23,9 @@ NodeVertex::NodeVertex(string nameSucursal, int x, int y, string phone, string s
     this -> phone = phone;
     this -> schedule = schedule;
     next = nullptr;
+    Dijk=0;
+    dijState=false;
+    predecessor = nullptr;
 }
 
 NodeVertex::~NodeVertex()

@@ -1,7 +1,6 @@
 #ifndef NODEVERTEX_H
 #define NODEVERTEX_H
 
-#include <vector>
 #include <iostream>
 using namespace std;
 /*

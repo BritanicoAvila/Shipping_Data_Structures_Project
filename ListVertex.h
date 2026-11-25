@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <string>
-#include <vector>
 #include <cstdlib>
 #include <ctime>
 #include <cmath>
@@ -33,14 +32,14 @@ class ListVertex
                 //////////                                             Operadores                                       //////////
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        void insert();         
-        void deleteAll();
-        void deleteVertex(NodeVertex*);
-        NodeVertex* fuller();            //Llena el nodo vertex
-        int distanceCalculator (NodeVertex*, NodeVertex*);              //Calcula la distancia entre 2 nodos
-        void balancerSetter(NodeVertex*);                           //Balancea vertices nuevos (inicializador)
-        NodeVertex* getLighter (NodeVertex*);                       //Optiene el vertice mas cercano a una sucursarl 
-        void generalBalancer();                                     //Balancea vertices cuando se elimina un vertice
+                void insert();         
+                void deleteAll();
+                void deleteVertex(NodeVertex*);
+                NodeVertex* fuller();            //Llena el nodo vertex
+                int distanceCalculator (NodeVertex*, NodeVertex*);              //Calcula la distancia entre 2 nodos
+                void balancerSetter(NodeVertex*);                           //Balancea vertices nuevos (inicializador)
+                NodeVertex* getLighter (NodeVertex*);                       //Optiene el vertice mas cercano a una sucursarl 
+                void generalBalancer();                                     //Balancea vertices cuando se elimina un vertice
 
 
 

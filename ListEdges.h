@@ -14,7 +14,6 @@ class NodeEdges;  // Declaración adelantada
 class ListEdges
 {
     public:
-        /*ListEdges& operator=(const ListEdges&) = delete;*/
         ListEdges();
         ListEdges(const ListEdges&);
         ListEdges& operator=(const ListEdges&);

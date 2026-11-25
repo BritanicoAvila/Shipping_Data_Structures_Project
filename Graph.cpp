@@ -38,13 +38,13 @@ void Graph::newEdge()
     vertex.showAll();
     
     string sucursal = "";
-    NodeVertex *from, *to = nullptr;
+    NodeVertex *from = nullptr, *to = nullptr;
 
     while (from == nullptr)
     {
         cout << "Introduzca el nombre de la sucursal del origen del enlace: ";
         getline(cin, sucursal);
-        from == vertex.searchingData(sucursal);
+        from = vertex.searchingData(sucursal);
 
         if(from == nullptr) 
         {
@@ -85,7 +85,7 @@ void Graph::newEdge()
     from -> edges.insert(to, weight);
     from -> edges.setHeaviest();
     cout << "Conexion agregada: " << from -> nameSucursal << "-> " << 
-    to -> nameSucursal << "(Peso: )" << weight << ")" << endl;
+    to -> nameSucursal << "(Peso: " << weight << ")" << endl;
 
 
     //from->edges.insert(to, vertex.distanceCalculator(from, to));   //Agrega la arista con los parametros necesariosz
@@ -97,33 +97,53 @@ void Graph::newEdge()
 
 void Graph::deleteVertex()
 {
-    if (vertex.h)
-    {
-    string sucursal = "";
-    bool flag = true;
-
-        while (flag)       //Si esta cosa devuelve un puntero valido
-        {
-        cout << "Introduzca el nombre de la sucursal a eliminar: ";
-        cin >> sucursal;
-
-            if (vertex.searchingData(sucursal))        //Si esta cosa devuelve un puntero valido
-            {
-            flag = false;
-            }
-            else
-            {
-            cout << "Sucursal no encontrada, revise sus datos y vuelva a intentarlo..." << endl << endl;
-            }
-        }
-
-    vertex.deleteVertex(vertex.searchingData(sucursal));
-    vertex.generalBalancer();
-    //FALTA LA LISTA DE DIRECCIONES PARA BORRAR LAS ARISTAS QUE LO APUNTAN
-
+    if(vertex.IsEmpty()){
+        cout << "No hay sucursales registradas" << endl;
+        return;
     }
 
+    string sucursal = "";
+    NodeVertex* target;
+    bool flag = true;
+
+    while (flag)       //Si esta cosa devuelve un puntero valido
+    {
+        vertex.showAll();
+        cout << "Introduzca el nombre de la sucursal a eliminar: ";
+        getline(cin, sucursal);
+        target = vertex.searchingData(sucursal);
+
+        if (target)        //Si esta cosa devuelve un puntero valido
+        {
+            flag = false;
+        }
+        else
+        {
+            cout << "Sucursal no encontrada, revise sus datos y vuelva a intentarlo..." << endl << endl;
+        }
+    }
+
+    NodeVertex* aux = vertex.h;
+    while (aux != nullptr)
+    {
+        if(aux != target and aux -> edges.hasEdge(target)){
+            aux -> edges.deleteEdges(target);
+            
+            if(!aux -> edges.IsEmpty()){
+                aux -> edges.setHeaviest();
+            }
+            else {
+                aux -> edges.heaviest = 0;
+            }
+        }
+        aux = aux -> next;
+    }
+    vertex.deleteVertex(target);
+    vertex.generalBalancer();
+
+    cout << "Sucursal eliminada correctamente." << endl;
 }
+
 void Graph::deleteEdge()
 {
     if(vertex.IsEmpty()){

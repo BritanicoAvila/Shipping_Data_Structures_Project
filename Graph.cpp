@@ -1,21 +1,17 @@
+#include "Graph.h"
 #include "NodeEdges.h"
 #include "NodeVertex.h"
-#include "ListEdges.h"
 #include "ListVertex.h"
-#include "Graph.h"
+#include "ListEdges.h"
 
 using namespace std;
-#include <iostream>
+
 
 Graph::Graph(/* args */)
 {
     vertex;
 }
 
-Graph::~Graph()
-{
-    
-}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////                                             Inserciones                                      //////////
@@ -205,5 +201,37 @@ void Graph::deleteEdge()
 
 void Graph::printGraph()
 {
+    if(vertex.IsEmpty()){
+        cout << "El grafo esta vacio, no hay sucursales registradas." << endl;
+        return;
+    }
 
+    NodeVertex* aux = vertex.h;
+    int cont = 0;
+
+    while (aux != nullptr){
+        cout << endl << "No. " << cont << "Sucursal: " << aux->nameSucursal << endl;
+        cout << "Coordenadas: " << aux->phone << endl;
+        cout << "Horario: " << aux->schedule << endl;
+        cout << "Conexiones salientes " << aux->edges.numEdges <<":"<<endl;
+
+
+        if(aux -> edges.IsEmpty()){
+            cout<< " -> Sin conexiones salientes. " << endl;
+        } else {
+            aux -> edges.showAll();
+        }
+
+        cout << endl << endl << endl;
+        cont++;
+        aux = aux -> next;
+    }
+    
+}
+
+
+
+Graph::~Graph()
+{
+    
 }

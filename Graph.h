@@ -3,6 +3,7 @@
 
 #include "ListVertex.h"
 #include "ListEdges.h"
+#include "ListVertex.h"
 #include <iostream>
 
 class Graph

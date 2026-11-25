@@ -6,12 +6,7 @@
 
 using namespace std;
 
-
-Graph::Graph(/* args */)
-{
-    vertex;
-}
-
+Graph::Graph(){}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////                                             Inserciones                                      //////////
@@ -80,11 +75,8 @@ void Graph::newEdge()
     int weight = vertex.distanceCalculator(from, to);
     from -> edges.insert(to, weight);
     from -> edges.setHeaviest();
-    cout << "Conexion agregada: " << from -> nameSucursal << "-> " << 
-    to -> nameSucursal << "(Peso: " << weight << ")" << endl;
-
-
-    //from->edges.insert(to, vertex.distanceCalculator(from, to));   //Agrega la arista con los parametros necesariosz
+    cout << "Conexion agregada: " << from -> nameSucursal << " -> " << 
+    to -> nameSucursal << " (Peso: " << weight << ")" << endl;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -99,7 +91,7 @@ void Graph::deleteVertex()
     }
 
     string sucursal = "";
-    NodeVertex* target;
+    NodeVertex* target = nullptr;
     bool flag = true;
 
     while (flag)       //Si esta cosa devuelve un puntero valido
@@ -210,8 +202,9 @@ void Graph::printGraph()
     int cont = 0;
 
     while (aux != nullptr){
-        cout << endl << "No. " << cont << "Sucursal: " << aux->nameSucursal << endl;
-        cout << "Coordenadas: " << aux->phone << endl;
+        cout << endl << "Sucursal No. " << cont <<": " << aux->nameSucursal << endl;
+        cout << "Coordenadas: " << "X: " << aux -> x << " Y: " << aux -> y << endl;
+        cout << "Telefono: " << aux->phone << endl;
         cout << "Horario: " << aux->schedule << endl;
         cout << "Conexiones salientes " << aux->edges.numEdges <<":"<<endl;
 

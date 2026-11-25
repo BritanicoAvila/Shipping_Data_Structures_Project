@@ -16,7 +16,6 @@ class NodeVertex
 {
     public:
         NodeVertex();
-        NodeVertex(string, int, int, string, string, NodeVertex*, ListEdges);
         NodeVertex(string, int, int, string, string);
         
         ~NodeVertex();

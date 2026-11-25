@@ -12,6 +12,11 @@ Graph::Graph(/* args */)
     vertex;
 }
 
+void Graph::Dijkstra ()
+{
+    vertex;
+}
+
 Graph::~Graph()
 {
     

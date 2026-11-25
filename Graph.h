@@ -18,6 +18,7 @@ private:
 
 public:
 
+    void Dijkstra ();
     void newVertex ();               // insertar vértice 
     void newEdge ();                 // insertar arista
     void deleteVertex();             // eliminar vértice

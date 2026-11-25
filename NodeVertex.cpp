@@ -31,7 +31,6 @@ NodeVertex::NodeVertex(string nameSucursal, int x, int y, string phone, string s
     this -> phone = phone;
     this -> schedule = schedule;
     next = nullptr;
-    edges;
 }
 
 NodeVertex::~NodeVertex()

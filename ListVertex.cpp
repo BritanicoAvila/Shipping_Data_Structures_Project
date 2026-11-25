@@ -169,7 +169,7 @@ void ListVertex::deleteAll()
 
 int ListVertex::distanceCalculator (NodeVertex* actN, NodeVertex* newN)              //Calcula la distancia
 {   
-    double distance=0, catx=0, caty=0;                        //Catetos
+    double distance=0;                        //Catetos
     if (actN != nullptr and newN != nullptr){
         
         double deltaX, deltaY;

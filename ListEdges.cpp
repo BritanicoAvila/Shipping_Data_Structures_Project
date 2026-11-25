@@ -59,6 +59,12 @@ void ListEdges::insert(NodeVertex* directionA, int weight) // Direction ADD a la
         h = tmp;
     }
     numEdges++;
+
+
+    if(numEdges == 1 || weight > heaviest){
+        heaviest = weight;
+    }
+
 }
 void ListEdges::deleteAll()
 {
@@ -94,12 +100,14 @@ void ListEdges::deleteEdges(NodeVertex* directionD)  //Direction to Delete
         return;
     }
     NodeEdges* aux = h;
+    bool deleted = false;
 
     if (directionD == h -> direction)
     {
         h = h -> next;
         delete aux;
         numEdges--;
+        deleted = true;
     }
     else
     {
@@ -116,9 +124,22 @@ void ListEdges::deleteEdges(NodeVertex* directionD)  //Direction to Delete
 
             delete aux;
             numEdges--;
+            deleted = true;
         }
     }
 
+    if (deleted)
+    {
+        if(!IsEmpty()){
+            setHeaviest();
+        }else{
+            heaviest = 0;
+        }
+    }
+    else {
+        cout << "Conexion no encontrada..." << endl;
+    }
+    
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

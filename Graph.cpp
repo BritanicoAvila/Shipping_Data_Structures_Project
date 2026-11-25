@@ -1,21 +1,12 @@
+#include "Graph.h"
 #include "NodeEdges.h"
 #include "NodeVertex.h"
-#include "ListEdges.h"
 #include "ListVertex.h"
-#include "Graph.h"
+#include "ListEdges.h"
 
 using namespace std;
-#include <iostream>
 
-Graph::Graph(/* args */)
-{
-    vertex;
-}
-
-Graph::~Graph()
-{
-    
-}
+Graph::Graph(){}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////                                             Inserciones                                      //////////
@@ -38,13 +29,13 @@ void Graph::newEdge()
     vertex.showAll();
     
     string sucursal = "";
-    NodeVertex *from, *to = nullptr;
+    NodeVertex *from = nullptr, *to = nullptr;
 
     while (from == nullptr)
     {
         cout << "Introduzca el nombre de la sucursal del origen del enlace: ";
         getline(cin, sucursal);
-        from == vertex.searchingData(sucursal);
+        from = vertex.searchingData(sucursal);
 
         if(from == nullptr) 
         {
@@ -84,11 +75,8 @@ void Graph::newEdge()
     int weight = vertex.distanceCalculator(from, to);
     from -> edges.insert(to, weight);
     from -> edges.setHeaviest();
-    cout << "Conexion agregada: " << from -> nameSucursal << "-> " << 
-    to -> nameSucursal << "(Peso: )" << weight << ")" << endl;
-
-
-    //from->edges.insert(to, vertex.distanceCalculator(from, to));   //Agrega la arista con los parametros necesariosz
+    cout << "Conexion agregada: " << from -> nameSucursal << " -> " << 
+    to -> nameSucursal << " (Peso: " << weight << ")" << endl;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,33 +85,53 @@ void Graph::newEdge()
 
 void Graph::deleteVertex()
 {
-    if (vertex.h)
-    {
-    string sucursal = "";
-    bool flag = true;
-
-        while (flag)       //Si esta cosa devuelve un puntero valido
-        {
-        cout << "Introduzca el nombre de la sucursal a eliminar: ";
-        cin >> sucursal;
-
-            if (vertex.searchingData(sucursal))        //Si esta cosa devuelve un puntero valido
-            {
-            flag = false;
-            }
-            else
-            {
-            cout << "Sucursal no encontrada, revise sus datos y vuelva a intentarlo..." << endl << endl;
-            }
-        }
-
-    vertex.deleteVertex(vertex.searchingData(sucursal));
-    vertex.generalBalancer();
-    //FALTA LA LISTA DE DIRECCIONES PARA BORRAR LAS ARISTAS QUE LO APUNTAN
-
+    if(vertex.IsEmpty()){
+        cout << "No hay sucursales registradas" << endl;
+        return;
     }
 
+    string sucursal = "";
+    NodeVertex* target = nullptr;
+    bool flag = true;
+
+    while (flag)       //Si esta cosa devuelve un puntero valido
+    {
+        vertex.showAll();
+        cout << "Introduzca el nombre de la sucursal a eliminar: ";
+        getline(cin, sucursal);
+        target = vertex.searchingData(sucursal);
+
+        if (target)        //Si esta cosa devuelve un puntero valido
+        {
+            flag = false;
+        }
+        else
+        {
+            cout << "Sucursal no encontrada, revise sus datos y vuelva a intentarlo..." << endl << endl;
+        }
+    }
+
+    NodeVertex* aux = vertex.h;
+    while (aux != nullptr)
+    {
+        if(aux != target and aux -> edges.hasEdge(target)){
+            aux -> edges.deleteEdges(target);
+            
+            if(!aux -> edges.IsEmpty()){
+                aux -> edges.setHeaviest();
+            }
+            else {
+                aux -> edges.heaviest = 0;
+            }
+        }
+        aux = aux -> next;
+    }
+    vertex.deleteVertex(target);
+    vertex.generalBalancer();
+
+    cout << "Sucursal eliminada correctamente." << endl;
 }
+
 void Graph::deleteEdge()
 {
     if(vertex.IsEmpty()){
@@ -185,5 +193,38 @@ void Graph::deleteEdge()
 
 void Graph::printGraph()
 {
+    if(vertex.IsEmpty()){
+        cout << "El grafo esta vacio, no hay sucursales registradas." << endl;
+        return;
+    }
 
+    NodeVertex* aux = vertex.h;
+    int cont = 0;
+
+    while (aux != nullptr){
+        cout << endl << "Sucursal No. " << cont <<": " << aux->nameSucursal << endl;
+        cout << "Coordenadas: " << "X: " << aux -> x << " Y: " << aux -> y << endl;
+        cout << "Telefono: " << aux->phone << endl;
+        cout << "Horario: " << aux->schedule << endl;
+        cout << "Conexiones salientes " << aux->edges.numEdges <<":"<<endl;
+
+
+        if(aux -> edges.IsEmpty()){
+            cout<< " -> Sin conexiones salientes. " << endl;
+        } else {
+            aux -> edges.showAll();
+        }
+
+        cout << endl << endl << endl;
+        cont++;
+        aux = aux -> next;
+    }
+    
+}
+
+
+
+Graph::~Graph()
+{
+    
 }

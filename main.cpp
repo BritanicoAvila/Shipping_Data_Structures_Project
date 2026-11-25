@@ -25,10 +25,8 @@ int main() {
         cout << "7) Salir" << endl;
         cout << "Ingrese una opcion: ";
 
-        if (!(cin >> option)) {
-            if (cin.eof()) {
-                break;
-            }
+        cin >> option;
+        if (cin.fail()) {
             cin.clear();
             option = 0;
         }
